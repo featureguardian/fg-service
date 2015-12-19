@@ -5,6 +5,7 @@ a [Sails](http://sailsjs.org) application
 ## Setup your environment
 1. Version 4.2.3 of Node.js
 1. Install [git flow](https://github.com/nvie/gitflow/wiki/Installation), read more about git flow [here](https://github.com/nvie/gitflow)
+1. Install [mongodb](https://docs.mongodb.org/v3.0/installation/)
 
 ## Setup the application
 
