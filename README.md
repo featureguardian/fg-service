@@ -29,4 +29,4 @@ Run locally:
 
 ## Swagger doc
 
-Available at: http://localhost:1337/swagger/doc  ( no auth_token required )
+Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/doc)  ( no auth_token required )
