@@ -22,11 +22,11 @@ Run locally:
 1. Install all modules for the app: `npm instal`
 1. Start the App: `sails lift`
 1. Obtain a token at the following url:
-	* http://localhost:1337/token?app_id=<application._id from instructions above>
+	* http://localhost:1337/token?app_id=**app_id_from_above_instructions**
 	* send this token with every request ( in query string, or body ).
-	 * example: [GET] http://localhost:1337/application?auth_token=<your_token>
+	 * example: [GET] http://localhost:1337/application?auth_token=**your_auth_token**
 
 
 ## Swagger doc
 
-Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/doc)  ( no auth_token required )
+Available at: http://localhost:1337/swagger/doc  ( no auth_token required )
