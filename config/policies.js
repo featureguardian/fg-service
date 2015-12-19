@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-   '*': true,
+   '*': ['isAuthorized'], // Everything resctricted here
 
   /***************************************************************************
   *                                                                          *
@@ -49,8 +49,16 @@ module.exports.policies = {
     // feed : ['isNiceToAnimals', 'hasRabbitFood']
   // }
 
-  TokenController: {
-      find: true,
-      '*': false
-    }
+
+  
+
+  'TokenController': {
+    find: true, // We dont need authorization here, allowing public access
+    '*': false
+  },
+
+  'SwaggerController': {
+    '*': true // We dont need authorization here, allowing public access
+  }
+
 };

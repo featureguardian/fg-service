@@ -23,7 +23,8 @@ Run locally:
 1. Start the App: `sails lift`
 1. Obtain a token at the following url:
 	* http://localhost:1337/token?app_id=**app_id_from_above_instructions**
-	* send this token with every request ( in query string, or body ).
+	* send this token with every request ( in query string, body, or authorization header )
+	 * preferred method is add an authorization header: Authorization: Bearer **your_auth_token** [Postman](https://www.getpostman.com/) makes this easy
 	 * example: [GET] http://localhost:1337/application?auth_token=**your_auth_token**
 
 

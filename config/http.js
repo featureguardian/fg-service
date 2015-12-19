@@ -36,7 +36,7 @@ module.exports.http = {
        'startRequestTimer',
        'cookieParser',
        'session',
-       'featureguardian_Authentication',
+       //'featureguardian_Authentication',
        'bodyParser',
        'handleBodyParserError',
        'compress',
@@ -56,7 +56,7 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  featureguardian_Authentication: function (req, res, next) {
+  /*featureguardian_Authentication: function (req, res, next) {
 
      var bypassPaths = ['/token', '/swagger/doc', '/token/', '/swagger/doc/', '/'];
      var bypass = false;
@@ -95,7 +95,7 @@ module.exports.http = {
           message: 'No token provided.' 
         });
       }
-  }
+  }*/
 
 
   /***************************************************************************

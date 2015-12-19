@@ -5,7 +5,6 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
-var jwt = require('jsonwebtoken');
 
 module.exports = {
 	find: function(req, res) {
@@ -14,15 +13,11 @@ module.exports = {
 		    if(err) return res.json(400, err);
 		    if(!app) return res.json(401, {success: false, message: 'Unauthorized: application does not exist'});
 
-		    var token = jwt.sign(app, sails.config.authSecret.secret, {
-			  expiresIn: '1d' // expires in 24 hours
-		    });
-
 		    // return the information including token as JSON
 		   res.json({
 		     success: true,
 		     message: 'Enjoy your token!',
-		     token: token
+		     token: jwToken.issue(app)
 		   });
 		});
     	}
