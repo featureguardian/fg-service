@@ -9,6 +9,8 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
+var jwt = require('jsonwebtoken');
+
 module.exports.http = {
 
   /****************************************************************************
@@ -21,7 +23,7 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+  middleware: {
 
   /***************************************************************************
   *                                                                          *
@@ -30,34 +32,70 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+     order: [
+       'startRequestTimer',
+       'cookieParser',
+       'session',
+       //'featureguardian_Authentication',
+       'bodyParser',
+       'handleBodyParserError',
+       'compress',
+       'methodOverride',
+       'poweredBy',
+       '$custom',
+       'router',
+       'www',
+       'favicon',
+       '404',
+       '500'
+     ],
 
   /****************************************************************************
   *                                                                           *
-  * Example custom middleware; logs each request to the console.              *
+  * custom middleware;             *
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+  /*featureguardian_Authentication: function (req, res, next) {
+
+     var bypassPaths = ['/token', '/swagger/doc', '/token/', '/swagger/doc/', '/'];
+     var bypass = false;
+     _.forEach(bypassPaths, function(path){
+        if(req.path.toLowerCase() == path) {
+          bypass = true;
+          return false;
+        }
+     });
+
+     if(bypass)
+       return next();
+     
+     
+     var token = req.param('auth_token');
+     if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, sails.config.authSecret.secret, function(err, decoded) {      
+          if (err) {
+          return res.json(401, { success: false, message: 'Failed to authenticate token.' });    
+          } else {
+            // if everything is good, save to request for use in other routes
+            req.decoded = decoded;
+            delete req.query.auth_token;
+            next();
+          }
+        });
+
+    } else {
+
+        // if there is no token
+        // return an error
+        return res.json(403, { 
+          success: false, 
+          message: 'No token provided.' 
+        });
+      }
+  }*/
 
 
   /***************************************************************************
@@ -71,7 +109,7 @@ module.exports.http = {
 
     // bodyParser: require('skipper')
 
-  // },
+  },
 
   /***************************************************************************
   *                                                                          *
