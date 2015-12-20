@@ -59,6 +59,11 @@ module.exports.policies = {
 
   'SwaggerController': {
     '*': true // We dont need authorization here, allowing public access
+  },
+
+  'ApplicationController': {
+    find: ['isAuthorized', 'alterAppIdFromParams'],
+    '*': false
   }
 
 };
