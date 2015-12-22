@@ -31,3 +31,10 @@ Run locally:
 ## Swagger doc
 
 Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/doc)  ( no auth_token required )
+
+## Things to make life more awesome
+
+
+### TypeScript Definitions
+1. Install TSD: `npm install -g tsd`
+1. Install the definitiosn for the project: `tsd install`
