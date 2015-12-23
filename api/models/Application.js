@@ -7,9 +7,17 @@
 
 module.exports = {
 
+  schema: true,
+
   attributes: {
 	
-	name: {type: 'string', required: true, unique: true}
+	name: {type: 'string', required: true, unique: true},
+	custom_attributes: { type: 'array' }
+  },
+
+  afterDestroy: function(destroyedRecords, cb) {
+        
+        RoleEntitlementUserRestriction.destroy({app_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
   }
 };
 

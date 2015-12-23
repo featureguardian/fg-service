@@ -6,11 +6,16 @@
 */
 
 module.exports = {
+
+  schema: true,
+
   attributes: {
 	name: { type: 'string', required: true, unique: true },
 	app_id: { type: 'string', required: true, model: 'application' },
 	users: { collection: 'user', via: 'roles' },
-	entitlements: { collection: 'entitlement', via: 'roles' }
+	entitlements: { collection: 'entitlement', via: 'roles' },
+	custom_attributes: { type: 'array' },
+	type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {

@@ -6,6 +6,8 @@
 */
 
 module.exports = {
+  
+  schema: true,
 
   attributes: {
 	email: { type: 'email', required: true },
@@ -13,7 +15,9 @@ module.exports = {
 	provider_id: { type: 'string', required: true },
 	roles: { collection: 'role', via: 'users' },
 	entitlements: { collection: 'entitlement', via: 'users' },
-	roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'user_id' }
+	roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'user_id' },
+	custom_attributes: { type: 'array' },
+	type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
