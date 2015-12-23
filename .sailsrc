@@ -1,5 +1,11 @@
 {
   "generators": {
     "modules": {}
+  },
+
+  //Added due to error on startup (EADDRINUSE); fixed in version 0.12
+  "hooks": {
+    "grunt": false
   }
+
 }
