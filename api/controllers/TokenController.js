@@ -7,6 +7,12 @@
 
 
 module.exports = {
+
+  /**
+   * Returns a token for an application
+   * @param req requires 'app_id' to be provided
+   * @param res
+     */
 	find: function(req, res) {
 		//var userCriteria = {provider_id: req.param('provider_id'), app_id: req.param('app_id'), email: req.param('email')};
 		Application.findOne({ id: req.param('app_id') }, function(err, app) {
@@ -22,4 +28,4 @@ module.exports = {
 		});
     	}
 };
-	
+

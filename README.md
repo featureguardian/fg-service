@@ -34,7 +34,9 @@ Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/
 
 ## Things to make life more awesome
 
-
 ### TypeScript Definitions
 1. Install TSD: `npm install -g tsd`
 1. Install the definitiosn for the project: `tsd install`
+
+### Integration Tests
+Run them like this: `mocha integration-test/bootstrap.test.js integration-test/*.test.js`

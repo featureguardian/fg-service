@@ -11,6 +11,11 @@
 
 module.exports.bootstrap = function(cb) {
 
+  /*
+  Nate: Multi-column constraints are not supported yet in Sails.  Will have to deal with this
+  explicitly if we want a unique constraint on name/e-mail.  E-mail was added to represent
+  a primary owner of an application.  Eventually can be used to support an OAuth handshake.
+
 	Application.native(function(err, collection) {
 	  collection.ensureIndex('name', {
 	    unique: true
@@ -20,6 +25,7 @@ module.exports.bootstrap = function(cb) {
 	    }
 	  });
    });
+  */
 
    Role.native(function(err, collection) {
 	  collection.ensureIndex({name: 1, app_id: 1}, {
