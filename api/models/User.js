@@ -36,9 +36,11 @@ module.exports = {
         };
         return cb(err2);
       }
+
       cb();
     });
   },
+
   afterDestroy: function (destroyedRecords, cb) {
 
     RoleEntitlementUserRestriction.destroy({userId: _.pluck(destroyedRecords, 'id')}).exec(cb);

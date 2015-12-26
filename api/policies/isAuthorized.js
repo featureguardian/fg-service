@@ -21,6 +21,7 @@ module.exports = function (req, res, next) {
     }
   } else if (req.param('authToken')) {
     token = req.param('authToken');
+
     // We delete the token from param to not mess with blueprints
     delete req.query.authToken;
   } else {

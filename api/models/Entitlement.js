@@ -22,7 +22,6 @@ module.exports = {
 
   beforeCreate: function (values, cb) {
 
-
     async.parallel([
         function (callback) {
           Application.find({id: values.appId}).exec(function (err, apps) {
@@ -39,9 +38,11 @@ module.exports = {
               };
               return callback(err2);
             }
+
             callback(null);
           });
         },
+
         function (callback) {
           /*if(values.role_id){
            Role.find({id: values.role_id, appId: values.appId}).exec(function(err, roles){
@@ -66,12 +67,14 @@ module.exports = {
            }*/
           callback(null);
         }],
+
       function (err /*, results*/) {
         if (err) return cb(err);
         cb();
       });
 
   },
+
   afterDestroy: function (destroyedRecords, cb) {
 
     RoleEntitlementUserRestriction.destroy({entitlementId: _.pluck(destroyedRecords, 'id')}).exec(cb);

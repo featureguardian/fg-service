@@ -8,10 +8,10 @@
 module.exports = {
 
   attributes: {
-	appId: { type: 'string', required: true, model: 'application' },
-	roleId: { type: 'string', required: true, model: 'role' },
-	entitlementId: { type: 'string', required: true, model: 'entitlement' },
-	userId: { type: 'string', required: true, model: 'user' }
+    appId: { type: 'string', required: true, model: 'application' },
+    roleId: { type: 'string', required: true, model: 'role' },
+    entitlementId: { type: 'string', required: true, model: 'entitlement' },
+    userId: { type: 'string', required: true, model: 'user' }
   }
 
 };

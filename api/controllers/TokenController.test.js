@@ -25,15 +25,17 @@ describe('Token Controller', function () {
 
   //Wolfpack gets us true unit tests for Sails, read more on the Github page
   global.Application = wolfpack('api/models/Application');
+
   //Wolfpack didn't work with the service, this was easy enough
   global.jwToken = {
     issue: function () {
-      return "tokenvalue";
+      return 'tokenvalue';
     }
   };
 
   beforeEach(function () {
     wolfpack.resetSpies();
+
     //clears any fake db responses that have been previously set by any or all of the setFindResults, setCreateResults, and/or setUpdateResults methods, no exceptions whatsoever.
     wolfpack.clearResults();
   });
@@ -64,7 +66,6 @@ describe('Token Controller', function () {
       expect(res.json.lastCall.args[0]).to.equal(401);
       expect(res.json.lastCall.args[1].message).to.equal('Unauthorized: application does not exist');
     });
-
 
   });
 });

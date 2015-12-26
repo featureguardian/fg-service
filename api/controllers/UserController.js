@@ -15,6 +15,7 @@ module.exports = {
       res.json(user);
     });
   },
+
   assignToRole: function (req, res) {
     var roleId = req.param('role_id');
     UserService.findOne({id: req.param('user_id')}, function (err, user) {
@@ -31,6 +32,7 @@ module.exports = {
       });
     });
   },
+
   removeFromRole: function (req, res) {
     var roleId = req.param('role_id');
     UserService.findOne({id: req.param('user_id')}, function (err, user) {
@@ -40,8 +42,7 @@ module.exports = {
         _.forEach(roleId, function (id) {
           user.roles.remove(id);
         });
-      }
-      else {
+      } else {
         user.roles.remove(roleId);
       }
 
@@ -49,6 +50,7 @@ module.exports = {
       res.json(user);
     });
   },
+
   giveEntitlement: function (req, res) {
     var entitlementId = req.param('entitlement_id');
     UserService.findOne({id: req.param('user_id')}, function (err, user) {
@@ -75,6 +77,7 @@ module.exports = {
       });
     });
   },
+
   removeEntitlement: function (req, res) {
     var entitlementId = req.param('entitlement_id');
     UserService.findOne({id: req.param('user_id')}, function (err, user) {
@@ -84,8 +87,7 @@ module.exports = {
         _.forEach(entitlementId, function (id) {
           user.entitlements.remove(id);
         });
-      }
-      else {
+      } else {
         user.entitlements.remove(entitlementId);
       }
 

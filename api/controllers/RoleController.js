@@ -21,8 +21,7 @@ module.exports = {
     if (req.query.customAttributes) {
       if (_.isArray(req.query.customAttributes)) {
         customAttrs = req.query.customAttributes;
-      }
-      else {
+      } else {
         customAttrs = [];
         customAttrs.push(req.query.customAttributes);
       }
@@ -39,17 +38,22 @@ module.exports = {
           var o = {key: arr[0], value: arr[1]};
           attrs.push(o);
         });
+
         var rs = _.filter(roles, function (r) {
           var retVal = false;
           _.forEach(attrs, function (attr) {
             retVal = _.some(r.customAttributes, attr);
           });
+
           return retVal;
         });
+
         return res.json(rs);
+
         //return res.json(_.where(roles, { customAttributes: attrs }));
 
       }
+
       res.json(roles);
     });
   }

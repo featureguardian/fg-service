@@ -25,6 +25,7 @@ module.exports = {
       });
     });
   },
+
   removeFromRole: function (req, res) {
     var roleId = req.param('role_id');
     var entitlementId = req.param('entitlement_id');
@@ -35,8 +36,7 @@ module.exports = {
         _.forEach(entitlementId, function (id) {
           role.entitlements.remove(id);
         });
-      }
-      else {
+      } else {
         role.entitlements.remove(entitlementId);
       }
 

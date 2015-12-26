@@ -34,6 +34,7 @@ module.exports = {
         };
         return cb(err2);
       }
+
       cb();
     });
   },
@@ -46,6 +47,7 @@ module.exports = {
     //});
     cb();
   },
+
   afterDestroy: function (destroyedRecords, cb) {
 
     RoleEntitlementUserRestriction.destroy({roleId: _.pluck(destroyedRecords, 'id')}).exec(cb);

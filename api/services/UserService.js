@@ -8,6 +8,7 @@ module.exports = {
       next(null, u);
     });
   },
+
   findOne: function (userCriteria, next) {
     User.findOne(userCriteria).exec(function (err, u) {
       if (err) return next(err, null);
