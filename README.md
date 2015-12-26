@@ -1,5 +1,8 @@
 # fg-service
 
+[![Build Status](https://travis-ci.org/featureguardian/fg-service.svg?branch=develop)](https://travis-ci.org/featureguardian/fg-service)
+[![Test Coverage](https://img.shields.io/codecov/c/github/featureguardian/fg-service.svg)](https://codecov.io/github/featureguardian/fg-service)
+
 a [Sails](http://sailsjs.org) application
 
 ## Setup your environment
