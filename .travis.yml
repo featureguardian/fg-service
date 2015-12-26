@@ -1,5 +1,12 @@
 language: node_js
 node_js:
   - "4.2"
+services: mongodb
+before_script:
+  - mongo use featureguardian
+script:
+  - npm install
+  - npm test
+  - mocha integration-test/bootstrap.test.js integration-test/*.test.js
 notifications:
   slack: featureguardian:ZbWTsXjCSfkOBLmoJtKw3psU
