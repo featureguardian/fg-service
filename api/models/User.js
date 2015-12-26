@@ -11,18 +11,18 @@ module.exports = {
   schema: true,
 
   attributes: {
-    email: {type: 'email', required: true},
-    appId: {type: 'string', required: true, model: 'application'},
-    providerId: {type: 'string', required: true},
-    roles: {collection: 'role', via: 'users'},
-    entitlements: {collection: 'entitlement', via: 'users'},
-    roleEntitlementRestrictions: {collection: 'roleentitlementuserrestriction', via: 'userId'},
-    customAttributes: {type: 'array'},
-    type: {type: 'integer'}
+    email: { type: 'email', required: true },
+    appId: { type: 'string', required: true, model: 'application' },
+    providerId: { type: 'string', required: true },
+    roles: { collection: 'role', via: 'users' },
+    entitlements: { collection: 'entitlement', via: 'users' },
+    roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'userId' },
+    customAttributes: { type: 'array' },
+    type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
-    Application.find({id: values.appId}).exec(function (err, apps) {
+    Application.find({ id: values.appId }).exec(function (err, apps) {
       if (err) return cb(err);
       if (apps.length === 0) {
         var err2 = {
@@ -43,7 +43,7 @@ module.exports = {
 
   afterDestroy: function (destroyedRecords, cb) {
 
-    RoleEntitlementUserRestriction.destroy({userId: _.pluck(destroyedRecords, 'id')}).exec(cb);
+    RoleEntitlementUserRestriction.destroy({ userId: _.pluck(destroyedRecords, 'id') }).exec(cb);
   }
 };
 

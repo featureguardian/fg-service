@@ -11,16 +11,16 @@ module.exports = {
   schema: true,
 
   attributes: {
-    name: {type: 'string', required: true, unique: true},
-    appId: {type: 'string', required: true, model: 'application'},
-    users: {collection: 'user', via: 'roles'},
-    entitlements: {collection: 'entitlement', via: 'roles'},
-    customAttributes: {type: 'array'},
-    type: {type: 'integer'}
+    name: { type: 'string', required: true, unique: true },
+    appId: { type: 'string', required: true, model: 'application' },
+    users: { collection: 'user', via: 'roles' },
+    entitlements: { collection: 'entitlement', via: 'roles' },
+    customAttributes: { type: 'array' },
+    type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
-    Application.find({id: values.appId}).exec(function (err, apps) {
+    Application.find({ id: values.appId }).exec(function (err, apps) {
       if (err) return cb(err);
       if (apps.length === 0) {
         var err2 = {
@@ -50,7 +50,7 @@ module.exports = {
 
   afterDestroy: function (destroyedRecords, cb) {
 
-    RoleEntitlementUserRestriction.destroy({roleId: _.pluck(destroyedRecords, 'id')}).exec(cb);
+    RoleEntitlementUserRestriction.destroy({ roleId: _.pluck(destroyedRecords, 'id') }).exec(cb);
   }
 };
 

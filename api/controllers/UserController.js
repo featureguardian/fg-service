@@ -9,7 +9,7 @@
 
 module.exports = {
   findOrCreate: function (req, res) {
-    var userCriteria = {providerId: req.param('provider_id'), appId: req.param('appId'), email: req.param('email')};
+    var userCriteria = { providerId: req.param('provider_id'), appId: req.param('appId'), email: req.param('email') };
     UserService.findOrCreate(userCriteria, req.allParams(), function (err, user) {
       if (err) return res.json(400, err);
       res.json(user);
@@ -18,11 +18,11 @@ module.exports = {
 
   assignToRole: function (req, res) {
     var roleId = req.param('role_id');
-    UserService.findOne({id: req.param('user_id')}, function (err, user) {
+    UserService.findOne({ id: req.param('user_id') }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
 
-      Role.findOne({id: roleId}, function (err, role) {
+      Role.findOne({ id: roleId }, function (err, role) {
         if (err) return res.json(400, err);
         if (!role) return res.json(401, 'Role not found');
         if (role.appId !== user.appId) return res.json(400, 'Role does not belong to this users application');
@@ -35,7 +35,7 @@ module.exports = {
 
   removeFromRole: function (req, res) {
     var roleId = req.param('role_id');
-    UserService.findOne({id: req.param('user_id')}, function (err, user) {
+    UserService.findOne({ id: req.param('user_id') }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
       if (_.isArray(roleId)) {
@@ -53,7 +53,7 @@ module.exports = {
 
   giveEntitlement: function (req, res) {
     var entitlementId = req.param('entitlement_id');
-    UserService.findOne({id: req.param('user_id')}, function (err, user) {
+    UserService.findOne({ id: req.param('user_id') }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
       /*var hasEntitlement = false;
@@ -67,7 +67,7 @@ module.exports = {
        if(hasEntitlement){
        return res.json(user);
        }*/
-      Entitlement.findOne({id: entitlementId}, function (err, entitlement) {
+      Entitlement.findOne({ id: entitlementId }, function (err, entitlement) {
         if (err) return res.json(400, err);
         if (!entitlement) return res.json(401, 'Entitlement not found');
         if (entitlement.appId !== user.appId) return res.json(400, 'Entitlement does not belong to this users application');
@@ -80,7 +80,7 @@ module.exports = {
 
   removeEntitlement: function (req, res) {
     var entitlementId = req.param('entitlement_id');
-    UserService.findOne({id: req.param('user_id')}, function (err, user) {
+    UserService.findOne({ id: req.param('user_id') }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
       if (_.isArray(entitlementId)) {

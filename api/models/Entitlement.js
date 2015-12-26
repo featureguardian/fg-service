@@ -12,19 +12,19 @@ module.exports = {
 
   attributes: {
 
-    name: {type: 'string', required: true},
-    appId: {type: 'string', required: true, model: 'application'},
-    roles: {collection: 'role', via: 'entitlements'},
-    users: {collection: 'user', via: 'entitlements'},
-    customAttributes: {type: 'array'},
-    type: {type: 'integer'}
+    name: { type: 'string', required: true },
+    appId: { type: 'string', required: true, model: 'application' },
+    roles: { collection: 'role', via: 'entitlements' },
+    users: { collection: 'user', via: 'entitlements' },
+    customAttributes: { type: 'array' },
+    type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
 
     async.parallel([
-        function (callback) {
-          Application.find({id: values.appId}).exec(function (err, apps) {
+      function (callback) {
+          Application.find({ id: values.appId }).exec(function (err, apps) {
             if (err) return callback(err);
             if (apps.length === 0) {
               var err2 = {
@@ -43,7 +43,7 @@ module.exports = {
           });
         },
 
-        function (callback) {
+      function (callback) {
           /*if(values.role_id){
            Role.find({id: values.role_id, appId: values.appId}).exec(function(err, roles){
            if(err) return callback(err);
@@ -77,7 +77,7 @@ module.exports = {
 
   afterDestroy: function (destroyedRecords, cb) {
 
-    RoleEntitlementUserRestriction.destroy({entitlementId: _.pluck(destroyedRecords, 'id')}).exec(cb);
+    RoleEntitlementUserRestriction.destroy({ entitlementId: _.pluck(destroyedRecords, 'id') }).exec(cb);
   }
 };
 

@@ -9,7 +9,7 @@
 
 module.exports = {
   findOrCreate: function (req, res) {
-    var roleCriteria = {appId: req.param('appId'), name: req.param('name')};
+    var roleCriteria = { appId: req.param('appId'), name: req.param('name') };
     RoleService.findOrCreate(roleCriteria, req.allParams(), function (err, role) {
       if (err) return res.json(400, err);
       res.json(role);
@@ -35,7 +35,7 @@ module.exports = {
       if (customAttrs) {
         _.forEach(customAttrs, function (s) {
           var arr = s.split(':');
-          var o = {key: arr[0], value: arr[1]};
+          var o = { key: arr[0], value: arr[1] };
           attrs.push(o);
         });
 
