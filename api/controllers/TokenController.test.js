@@ -8,8 +8,8 @@ var TokenController = require('./TokenController');
 //No need to do any mocking of the request here, just provide a vanilla stub
 function getRequest(appId) {
   return {
-    param: function(name) {
-      return name === 'app_id' ? appId : 'Wrong Param Name';
+    param: function (name) {
+      return name === 'appId' ? appId : 'Wrong Param Name';
     }
   };
 }
@@ -21,18 +21,18 @@ function getResponse() {
   };
 }
 
-describe('Token Controller', function() {
+describe('Token Controller', function () {
 
   //Wolfpack gets us true unit tests for Sails, read more on the Github page
   global.Application = wolfpack('api/models/Application');
   //Wolfpack didn't work with the service, this was easy enough
   global.jwToken = {
-    issue: function(app) {
+    issue: function () {
       return "tokenvalue";
     }
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     wolfpack.resetSpies();
     //clears any fake db responses that have been previously set by any or all of the setFindResults, setCreateResults, and/or setUpdateResults methods, no exceptions whatsoever.
     wolfpack.clearResults();
@@ -41,9 +41,9 @@ describe('Token Controller', function() {
   //*****************************************************************
   //*********************** BEGIN TEST CASES ************************
   //*****************************************************************
-  describe('Find', function() {
+  describe('Find', function () {
 
-    it('should return new token when app_id is provided and Application is found', function() {
+    it('should return new token when appId is provided and Application is found', function () {
       wolfpack.setFindResults({
         id: '123'
       });
@@ -56,7 +56,7 @@ describe('Token Controller', function() {
       expect(json.token).to.equal('tokenvalue');
     });
 
-    it('should return 401 response code when app_id is not provided', function() {
+    it('should return 401 response code when appId is not provided', function () {
       var res = getResponse();
 
       TokenController.find(getRequest(undefined), res);

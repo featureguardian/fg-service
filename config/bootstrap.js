@@ -8,6 +8,7 @@
  * For more information on bootstrapping your app, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.bootstrap.html
  */
+/* jshint undef:false */
 
 module.exports.bootstrap = function(cb) {
 
@@ -28,7 +29,7 @@ module.exports.bootstrap = function(cb) {
   */
 
    Role.native(function(err, collection) {
-	  collection.ensureIndex({name: 1, app_id: 1}, {
+	  collection.ensureIndex({name: 1, appId: 1}, {
 	    unique: true
 	  }, function(err, result) {
 	    if (err) {
@@ -38,7 +39,7 @@ module.exports.bootstrap = function(cb) {
    });
 
    Entitlement.native(function(err, collection) {
-	  collection.ensureIndex({name: 1, app_id: 1}, {
+	  collection.ensureIndex({name: 1, appId: 1}, {
 	    unique: true
 	  }, function(err, result) {
 	    if (err) {
@@ -48,7 +49,7 @@ module.exports.bootstrap = function(cb) {
    });
 
    User.native(function(err, collection) {
-	  collection.ensureIndex({email: 1, app_id: 1, provider_id: 1}, {
+	  collection.ensureIndex({email: 1, appId: 1, providerId: 1}, {
 	    unique: true
 	  }, function(err, result) {
 	    if (err) {
@@ -58,7 +59,7 @@ module.exports.bootstrap = function(cb) {
    });
 
    RoleEntitlementUserRestriction.native(function(err, collection) {
-	  collection.ensureIndex({role_id: 1, entitlement_id: 1, user_id: 1, app_id: 1}, {
+	  collection.ensureIndex({roleId: 1, entitlementId: 1, userId: 1, appId: 1}, {
 	    unique: true
 	  }, function(err, result) {
 	    if (err) {

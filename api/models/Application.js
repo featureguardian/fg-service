@@ -6,6 +6,7 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
+/* jshint undef:false */
 
 module.exports = {
 
@@ -14,12 +15,12 @@ module.exports = {
   attributes: {
     name: {type: 'string', required: true, unique: false},
     email: {type: 'email', required: true, unique: false},
-    custom_attributes: {type: 'array'}
+    customAttributes: {type: 'array'}
   },
 
   afterDestroy: function (destroyedRecords, cb) {
 
-    RoleEntitlementUserRestriction.destroy({app_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
+    RoleEntitlementUserRestriction.destroy({appId: _.pluck(destroyedRecords, 'id')}).exec(cb);
 
   }
 };

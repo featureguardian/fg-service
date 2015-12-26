@@ -22,10 +22,10 @@ Run locally:
 2. Setup the repo to recognize git-flow commands: `git flow init -d`
 1. Globally install sails: `npm install -g sails`
 1. Globally install the mocha test runner: `npm install -g mocha`
-1. Install all modules for the app: `npm instal`
+1. Install all modules for the app: `npm install`
 1. Start the App: `sails lift`
 1. Obtain a token at the following url:
-	* http://localhost:1337/token?app_id=**app_id_from_above_instructions**
+	* http://localhost:1337/token?appId=**app_id_from_above_instructions**
 	* send this token with every request ( in authorization header ) ex. Authorization: Bearer **your_auth_token**
 	 * [Postman](https://www.getpostman.com/) makes this easy
 	 * example: [GET] http://localhost:1337/application
@@ -33,7 +33,7 @@ Run locally:
 
 ## Swagger doc
 
-Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/doc)  ( no auth_token required )
+Available at: [http://localhost:1337/swagger/doc](http://localhost:1337/swagger/doc)  ( no authToken required )
 
 ## Things to make life more awesome
 
