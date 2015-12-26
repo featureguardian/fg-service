@@ -3,7 +3,7 @@ node_js:
   - "4.2"
 services: mongodb
 before_script:
-  - mongo use featureguardian
+  - mongo featureguardian
 script:
   - npm install
   - npm test
