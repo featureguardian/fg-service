@@ -33,12 +33,13 @@
     "wolfpack": "^0.4.0"
   },
   "devDependencies": {
+    "istanbul": "^0.4.1",
     "supertest": "^1.1.0"
   },
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
-    "test": "mocha $(find api -name '*.test.js')"
+    "test": "istanbul cover _mocha $(find api -name '*.test.js')"
   },
   "main": "app.js",
   "repository": {
