@@ -1,9 +1,9 @@
-var expect = require('chai').expect;
-var sinon = require('sinon');
-var wolfpack = require('wolfpack');
+const expect = require('chai').expect;
+const sinon = require('sinon');
+const wolfpack = require('wolfpack');
 
 //Module under test
-var TokenController = require('./TokenController');
+const TokenController = require('./TokenController');
 
 //No need to do any mocking of the request here, just provide a vanilla stub
 function getRequest(appId) {
@@ -49,17 +49,17 @@ describe('Token Controller', function () {
       wolfpack.setFindResults({
         id: '123'
       });
-      var res = getResponse();
+      const res = getResponse();
 
       TokenController.find(getRequest('123'), res);
 
-      var json = res.json.lastCall.args[0];
+      const json = res.json.lastCall.args[0];
       expect(json.message).to.equal('Enjoy your token!');
       expect(json.token).to.equal('tokenvalue');
     });
 
     it('should return 401 response code when appId is not provided', function () {
-      var res = getResponse();
+      const res = getResponse();
 
       TokenController.find(getRequest(undefined), res);
 

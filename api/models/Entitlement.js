@@ -27,7 +27,7 @@ module.exports = {
           Application.find({ id: values.appId }).exec(function (err, apps) {
             if (err) return callback(err);
             if (apps.length === 0) {
-              var err2 = {
+              const err2 = {
                 code: 'E_UNIQUE',
                 details: 'Invalid appId',
                 model: 'application',
@@ -48,7 +48,7 @@ module.exports = {
            Role.find({id: values.role_id, appId: values.appId}).exec(function(err, roles){
            if(err) return callback(err);
            if(roles.length == 0){
-           var err = {
+           const err = {
            code: 'E_UNIQUE',
            details: 'Invalid role_id',
            model: 'entitlement',

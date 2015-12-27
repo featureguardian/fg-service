@@ -9,7 +9,7 @@
 
 module.exports = {
   findOrCreate: function (req, res) {
-    var roleCriteria = { appId: req.param('appId'), name: req.param('name') };
+    const roleCriteria = { appId: req.param('appId'), name: req.param('name') };
     RoleService.findOrCreate(roleCriteria, req.allParams(), function (err, role) {
       if (err) return res.json(400, err);
       res.json(role);
@@ -17,7 +17,7 @@ module.exports = {
   },
 
   find: function (req, res) {
-    var customAttrs;
+    let customAttrs;
     if (req.query.customAttributes) {
       if (_.isArray(req.query.customAttributes)) {
         customAttrs = req.query.customAttributes;
@@ -28,19 +28,19 @@ module.exports = {
     }
 
     delete req.query.customAttributes;
-    var attrs = [];
+    const attrs = [];
 
     Role.find(req.query, function (err, roles) {
       if (err) return res.json(400, err);
       if (customAttrs) {
         _.forEach(customAttrs, function (s) {
-          var arr = s.split(':');
-          var o = { key: arr[0], value: arr[1] };
+          const arr = s.split(':');
+          const o = { key: arr[0], value: arr[1] };
           attrs.push(o);
         });
 
-        var rs = _.filter(roles, function (r) {
-          var retVal = false;
+        const rs = _.filter(roles, function (r) {
+          let retVal = false;
           _.forEach(attrs, function (attr) {
             retVal = _.some(r.customAttributes, attr);
           });

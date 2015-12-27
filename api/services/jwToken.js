@@ -6,7 +6,7 @@
  */
 /* jshint undef:false */
 
-var
+const
   jwt = require('jsonwebtoken'),
   tokenSecret = sails.config.authSecret.secret;
 

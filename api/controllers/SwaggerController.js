@@ -1,8 +1,8 @@
 /* jshint undef:false */
 
-//var _ = require('lodash');
+//const _ = require('lodash');
 
-var _super = require('sails-swagger/dist/api/controllers/SwaggerController');
+const _super = require('sails-swagger/dist/api/controllers/SwaggerController');
 
 _.merge(exports, _super);
 _.merge(exports, {
