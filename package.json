@@ -4,33 +4,22 @@
   "version": "0.0.1",
   "description": "Feature Guardian provides a Restful API that serves up user entitlements to your application.",
   "keywords": [],
-
   "dependencies": {
-
     "ejs": "~0.8.4",
     "include-all": "~0.1.3",
     "jsonwebtoken": "^5.4.1",
     "q": "^1.4.1",
     "rc": "~0.5.0",
-
     "sails": "^0.11.3",
     "sails-disk": "~0.10.0",
     "sails-mongo": "^0.11.5",
     "sails-swagger": "^0.5.1"
-
   },
   "devDependencies": {
-
-    "mocha": "^2.3.4",
     "chai": "^3.4.1",
-    "sinon": "^1.17.2",
-
-    "wolfpack": "^0.4.0",
-
-    "supertest": "^1.1.0",
-
-    "istanbul": "^0.4.1",
-
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^2.1.1",
+    "eslint-plugin-react": "^3.13.1",
     "grunt": "0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-coffee": "~0.10.1",
@@ -42,7 +31,14 @@
     "grunt-contrib-uglify": "~0.4.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-sails-linker": "~0.9.5",
-    "grunt-sync": "~0.0.4"
+    "grunt-sync": "~0.0.4",
+    "istanbul": "^0.4.1",
+    "jscs": "^2.7.0",
+    "jshint": "^2.9.1-rc2",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "supertest": "^1.1.0",
+    "wolfpack": "^0.4.0"
   },
   "scripts": {
     "debug": "node debug app.js",

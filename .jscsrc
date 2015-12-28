@@ -1,0 +1,8 @@
+{
+	"preset": "airbnb",
+  "disallowMultipleVarDecl": false, //Nate likes this one, should we enable it?
+  "disallowSpacesInsideParentheses": false,
+	"disallowSpacesInFunctionExpression": null,
+	"disallowSpacesInAnonymousFunctionExpression": null,
+	"requireTrailingComma": null
+}
