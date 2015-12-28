@@ -6,9 +6,9 @@
  */
 /* jshint undef:false */
 /* eslint no-undef: 0 */
-"use strict";
 
 module.exports = function (req, res, next) {
+  'use strict';
   let token;
   if (req.headers && req.headers.authorization) {
     const parts = req.headers.authorization.split(' ');
@@ -30,11 +30,11 @@ module.exports = function (req, res, next) {
     return res.json(401, { err: 'No Authorization header was found' });
   }
 
-  jwToken.verify(token, function (err, token) {
+  jwToken.verify(token, function (err, t) {
     if (err) return res.json(401, { err: 'Invalid Token!' });
-    req.token = token; // This is the decrypted token or the payload you provided
+    req.token = t; // This is the decrypted token or the payload you provided
     // Add appId to query to prevent access to other apps in featureguardian
-    req.query.appId = token.id;
+    req.query.appId = t.id;
     next();
   });
 };

@@ -6,7 +6,6 @@
  *
  */
 /* jshint undef:false */
-"use strict";
 
 module.exports = {
 
@@ -19,6 +18,7 @@ module.exports = {
   },
 
   find: function (req, res) {
+    'use strict';
     let customAttrs;
     if (req.query.customAttributes) {
       if (_.isArray(req.query.customAttributes)) {

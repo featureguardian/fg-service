@@ -24,24 +24,24 @@ module.exports = {
 
     async.parallel([
       function (callback) {
-          Application.find({ id: values.appId }).exec(function (err, apps) {
-            if (err) return callback(err);
-            if (apps.length === 0) {
-              const err2 = {
-                code: 'E_UNIQUE',
-                details: 'Invalid appId',
-                model: 'application',
-                invalidAttributes: {
-                  appId: values.appId
-                },
-                status: 400
-              };
-              return callback(err2);
-            }
+        Application.find({ id: values.appId }).exec(function (err, apps) {
+          if (err) return callback(err);
+          if (apps.length === 0) {
+            const err2 = {
+              code: 'E_UNIQUE',
+              details: 'Invalid appId',
+              model: 'application',
+              invalidAttributes: {
+                appId: values.appId
+              },
+              status: 400
+            };
+            return callback(err2);
+          }
 
-            callback(null);
-          });
-        },
+          callback(null);
+        });
+      },
 
       function (callback) {
           /*if(values.role_id){
@@ -65,8 +65,8 @@ module.exports = {
            else {
            callback(null);
            }*/
-          callback(null);
-        }],
+        callback(null);
+      }],
 
       function (err /*, results*/) {
         if (err) return cb(err);
@@ -80,4 +80,3 @@ module.exports = {
     RoleEntitlementUserRestriction.destroy({ entitlementId: _.pluck(destroyedRecords, 'id') }).exec(cb);
   }
 };
-

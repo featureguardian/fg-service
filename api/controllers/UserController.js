@@ -22,12 +22,12 @@ module.exports = {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
 
-      Role.findOne({ id: roleId }, function (err, role) {
-        if (err) return res.json(400, err);
+      Role.findOne({ id: roleId }, function (findErr, role) {
+        if (findErr) return res.json(400, findErr);
         if (!role) return res.json(401, 'Role not found');
         if (role.appId !== user.appId) return res.json(400, 'Role does not belong to this users application');
         user.roles.add(roleId);
-        user.save(console.log);
+        user.save(sails.log);
         res.json(user);
       });
     });
@@ -46,7 +46,7 @@ module.exports = {
         user.roles.remove(roleId);
       }
 
-      user.save(console.log);
+      user.save(sails.log);
       res.json(user);
     });
   },
@@ -67,12 +67,12 @@ module.exports = {
        if(hasEntitlement){
        return res.json(user);
        }*/
-      Entitlement.findOne({ id: entitlementId }, function (err, entitlement) {
-        if (err) return res.json(400, err);
+      Entitlement.findOne({ id: entitlementId }, function (findErr, entitlement) {
+        if (findErr) return res.json(400, findErr);
         if (!entitlement) return res.json(401, 'Entitlement not found');
         if (entitlement.appId !== user.appId) return res.json(400, 'Entitlement does not belong to this users application');
         user.entitlements.add(entitlementId);
-        user.save(console.log);
+        user.save(sails.log);
         res.json(user);
       });
     });
@@ -91,9 +91,8 @@ module.exports = {
         user.entitlements.remove(entitlementId);
       }
 
-      user.save(console.log);
+      user.save(sails.log);
       res.json(user);
     });
   }
 };
-
