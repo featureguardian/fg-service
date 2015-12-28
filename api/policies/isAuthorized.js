@@ -6,6 +6,7 @@
  */
 /* jshint undef:false */
 /* eslint no-undef: 0 */
+"use strict";
 
 module.exports = function (req, res, next) {
   let token;

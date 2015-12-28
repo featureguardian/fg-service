@@ -6,8 +6,10 @@
  *
  */
 /* jshint undef:false */
+"use strict";
 
 module.exports = {
+
   findOrCreate: function (req, res) {
     const roleCriteria = { appId: req.param('appId'), name: req.param('name') };
     RoleService.findOrCreate(roleCriteria, req.allParams(), function (err, role) {
