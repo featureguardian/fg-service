@@ -6,6 +6,17 @@
  */
 
 module.exports = function (req, res, next) {
+
+  //if authenticated from login ui, allow access to api
+  if(req.session.authenticated){
+    if(req.body){
+      req.body.app_id = req.session.app_id;
+    }
+    
+    req.query.app_id = req.session.app_id;
+    return next();
+  } 
+
   var token;
   if (req.headers && req.headers.authorization) {
     var parts = req.headers.authorization.split(' ');
@@ -30,6 +41,10 @@ module.exports = function (req, res, next) {
     if (err) return res.json(401, {err: 'Invalid Token!'});
     req.token = token; // This is the decrypted token or the payload you provided
     // Add app_id to query to prevent access to other apps in featureguardian
+    if(req.body){
+      req.body.app_id = token.id;
+    }
+    
     req.query.app_id = token.id;
     next();
   });

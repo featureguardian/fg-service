@@ -26,6 +26,19 @@ module.exports = {
 		     token: jwToken.issue(app)
 		   });
 		});
-    	}
+    	},
+    findByAppEmail: function(req, res){
+    	Application.findOne({ id: req.param('app_id'), email: req.param('email') }, function(err, app) {
+		    if(err) return res.json(400, err);
+		    if(!app) return res.json(401, {success: false, message: 'Unauthorized: application does not exist'});
+
+		    // return the information including token as JSON
+		   res.json({
+		     success: true,
+		     message: 'Enjoy your token!',
+		     token: jwToken.issue(app)
+		   });
+		});
+    }
 };
 

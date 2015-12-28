@@ -12,14 +12,20 @@ module.exports = {
   schema: true,
 
   attributes: {
+
     name: {type: 'string', required: true, unique: false},
     email: {type: 'email', required: true, unique: false},
-    custom_attributes: {type: 'array'}
+    custom_attributes: { collection: 'customattribute', via: 'applicationId' }
+
   },
 
   afterDestroy: function (destroyedRecords, cb) {
 
-    RoleEntitlementUserRestriction.destroy({app_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
+
+    RoleEntitlementUserRestriction.destroy({app_id: _.pluck(destroyedRecords, 'id')}).exec(function(){
+    	CustomAttribute.destroy({applicationId: _.pluck(destroyedRecords, 'id')}).exec(cb);
+    });
+    
 
   }
 };

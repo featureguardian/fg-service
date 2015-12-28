@@ -67,6 +67,16 @@ module.exports.bootstrap = function(cb) {
 	  });
    });
 
+   CustomAttribute.native(function(err, collection) {
+	  collection.ensureIndex({key: 1, application_id: 1, user_id: 1, entitlement_id: 1, role_id: 1}, {
+	    unique: true
+	  }, function(err, result) {
+	    if (err) {
+	      sails.log.error(err);
+	    }
+	  });
+   });
+
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
   cb();

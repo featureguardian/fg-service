@@ -11,32 +11,33 @@
 // Path to public folder
 var tmpPath = '.tmp/public/';
 
+
 // CSS files to inject in order
 //
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
-var cssFilesToInject = [
-  'styles/**/*.css'
-];
+//var cssFilesToInject = [
+  //'styles/**/*.css'
+//];
 
 
 // Client-side javascript files to inject in order
 // (uses Grunt-style wildcard/glob/splat expressions)
-var jsFilesToInject = [
+//var jsFilesToInject = [
 
   // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
+  //'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
-  'js/dependencies/**/*.js',
+  //'js/dependencies/**/*.js',
 
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
-  'js/**/*.js',
+  //'js/**/*.js',
 
   // Use the "exclude" operator to ignore files
   // '!js/ignore/these/files/*.js'
-];
+//];
 
 
 // Client-side HTML templates are injected using the sources below
@@ -49,8 +50,28 @@ var jsFilesToInject = [
 // templates get spit out to the same file.  Be sure and check out `tasks/README.md`
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
-  'templates/**/*.html'
+  'partials/**/*.html'
 ];
+
+var cssFilesToInject = [
+'bower_components/bootstrap/dist/css/bootstrap.css',
+'styles/**/*.css'
+];
+
+var jsFilesToInject = [
+  'js/dependencies/sails.io.js',
+  //'/bower_components/jquery/dist/jquery.js',
+  '/bower_components/angular/angular.js',
+  '/bower_components/angular-route/angular-route.js',
+  '/bower_components/angular-resource/angular-resource.js',
+  'js/app.js',
+  //'js/controllers/application.js',
+  '/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
+  //'/bower_components/bootstrap/dist/js/boostrap.js',
+  'js/dependencies/**/*.js',
+
+  'js/**/*.js'
+  ];
 
 
 
