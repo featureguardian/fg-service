@@ -20,6 +20,7 @@ module.exports = function badRequest(data, options) {
   'use strict';
 
   let returnData = data;
+
   // Get access to `req`, `res`, & `sails`
   const req = this.req;
   const res = this.res;

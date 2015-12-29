@@ -11,13 +11,13 @@ module.exports = {
   schema: true,
 
   attributes: {
-	
-	name: { type: 'string', required: true },
-	app_id: { type: 'string', required: true, model: 'application' },
-	roles: { collection: 'role', via: 'entitlements' },
-	users: { collection: 'user', via: 'entitlements' },
-	custom_attributes: { collection: 'customattribute', via: 'entitlement_id' },
-	type: { type: 'integer' }
+
+    name: { type: 'string', required: true },
+    appId: { type: 'string', required: true, model: 'application' },
+    roles: { collection: 'role', via: 'entitlements' },
+    users: { collection: 'user', via: 'entitlements' },
+    customAttributes: { collection: 'customattribute', via: 'entitlementId' },
+    type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
@@ -44,27 +44,27 @@ module.exports = {
       },
 
       function (callback) {
-          /*if(values.role_id){
-           Role.find({id: values.role_id, appId: values.appId}).exec(function(err, roles){
-           if(err) return callback(err);
-           if(roles.length == 0){
-           const err = {
-           code: 'E_UNIQUE',
-           details: 'Invalid role_id',
-           model: 'entitlement',
-           invalidAttributes: {
-           role_id: values.role_id
-           },
-           status: 400
-           }
-           return callback(err);
-           }
-           return callback(null);
-           });
-           }
-           else {
-           callback(null);
-           }*/
+        /*if(values.roleId){
+         Role.find({id: values.roleId, appId: values.appId}).exec(function(err, roles){
+         if(err) return callback(err);
+         if(roles.length == 0){
+         const err = {
+         code: 'E_UNIQUE',
+         details: 'Invalid roleId',
+         model: 'entitlement',
+         invalidAttributes: {
+         roleId: values.roleId
+         },
+         status: 400
+         }
+         return callback(err);
+         }
+         return callback(null);
+         });
+         }
+         else {
+         callback(null);
+         }*/
         callback(null);
       }],
 
@@ -74,11 +74,12 @@ module.exports = {
       });
 
   },
-  afterDestroy: function(destroyedRecords, cb) {
-        
-        RoleEntitlementUserRestriction.destroy({entitlement_id: _.pluck(destroyedRecords, 'id')}).exec(function(){
-        	CustomAttribute.destroy({entitlement_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
-        });
-        
+
+  afterDestroy: function (destroyedRecords, cb) {
+
+    RoleEntitlementUserRestriction.destroy({ entitlementId: _.pluck(destroyedRecords, 'id') }).exec(function () {
+      CustomAttribute.destroy({ entitlementId: _.pluck(destroyedRecords, 'id') }).exec(cb);
+    });
+
   }
 };

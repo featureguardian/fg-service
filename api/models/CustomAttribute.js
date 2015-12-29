@@ -11,13 +11,13 @@ module.exports = {
 
   attributes: {
 
-  	app_id: { type: 'string' },
-  	key: { type: 'string', required: true },
-  	value: { type: 'string', required: true },
-  	user_id: { model: 'user' },
-  	role_id: { model: 'role' },
-  	entitlement_id: { model: 'entitlement' },
-  	application_id: { model: 'application' }
+    appId: { type: 'string' },
+    key: { type: 'string', required: true },
+    value: { type: 'string', required: true },
+    userId: { model: 'user' },
+    roleId: { model: 'role' },
+    entitlementId: { model: 'entitlement' },
+    applicationId: { model: 'application' }
 
   }
 };
