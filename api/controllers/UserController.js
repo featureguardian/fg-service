@@ -26,10 +26,10 @@ module.exports = {
 				custom_attrs.push(req.query.custom_attributes);
 			}
 		}
-		
+
 		delete req.query.custom_attributes;
 		var attrs = [];
-		
+
 		User.find(req.query).populateAll().exec(function(err, users){
 			if(err) return res.json(400, err);
 			if(custom_attrs){
@@ -72,8 +72,8 @@ module.exports = {
 		    		res.json(user);
 		    		//});
 		    	});
-		    	
-		    	
+
+
 	        });
 	    });
     },
@@ -81,7 +81,7 @@ module.exports = {
     	var userId = req.param('user_id');
     	Role.find(req.query).populate('users').exec(function(err, roles){
     		if(err) return res.json(400, err);
-    		var filtered = 
+    		var filtered =
     			_.filter(roles, function(role){
     				var inRole = _.some(role.users, {id: userId});
     				return !inRole;
@@ -102,18 +102,18 @@ module.exports = {
 		    else {
 				user.roles.remove(roleId);
 		    }
-		    
+
 		    user.save(function(err, user){
 		    	res.json(user);
 		    });
-		    	
+
 	    });
     },
     entitlementsNotIn: function(req, res){
     	var userId = req.param('user_id');
     	Entitlement.find(req.query).populate('users').exec(function(err, entitlements){
     		if(err) return res.json(400, err);
-    		var filtered = 
+    		var filtered =
     			_.filter(entitlements, function(entitlement){
     				var hasEntitlement = _.some(entitlement.users, {id: userId});
     				return !hasEntitlement;
@@ -126,7 +126,7 @@ module.exports = {
 		UserService.findOne({id: req.param('user_id')}, function(err, user) {
 		    if(err) return res.json(400, err);
 		    if(!user) return res.json(401, 'User not found');
-		    
+
 		    Entitlement.findOne({id: entitlementId}, function(err, entitlement){
 				if(err) return res.json(400, err);
 				if(!entitlement) return res.json(401, 'Entitlement not found');
@@ -135,7 +135,7 @@ module.exports = {
 		    	user.save(function(err, user){
 		    		res.json(user);
 		    	});
-		    	
+
 	        });
 	    });
     },
@@ -152,17 +152,11 @@ module.exports = {
 		    else {
 				user.entitlements.remove(entitlementId);
 		    }
-		    
+
 		    user.save(function(err, user){
 		    	res.json(user);
 		    });
-		    
+
 	    });
     }
-};
-
-      user.save(sails.log);
-      res.json(user);
-    });
-  }
 };
