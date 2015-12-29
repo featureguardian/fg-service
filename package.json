@@ -35,7 +35,7 @@
   "scripts": {
     "debug": "node debug app.js",
     "start": "node app.js",
-    "test": "istanbul cover _mocha $(find api -name '*.test.js')"
+    "test": "gulp test"
   },
   "main": "app.js",
   "repository": {
