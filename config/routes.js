@@ -34,6 +34,42 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
+  },
+
+  'post /user/assignToRole/:user_id/:role_id': {
+    controller: 'UserController',
+    action: 'assignToRole',
+    skipAssets: true
+  },
+
+  'post /user/removeFromRole/:user_id/:role_id' : {
+    controller: 'UserController',
+    action: 'removeFromRole',
+    skipAssets: true
+  },
+
+  'get /user/rolesNotIn/:user_id': {
+    controller: 'UserController',
+    action: 'rolesNotIn',
+    skipAssets: true
+  },
+
+  'post /user/giveEntitlement/:user_id/:entitlement_id' : {
+    controller: 'UserController',
+    action: 'giveEntitlement',
+    skipAssets: true
+  },
+
+  'post /user/removeEntitlement/:user_id/:entitlement_id' : {
+    controller: 'UserController',
+    action: 'removeEntitlement',
+    skipAssets: true
+  },
+
+  'get /user/entitlementsNotIn/:user_id': {
+    controller: 'UserController',
+    action: 'entitlementsNotIn',
+    skipAssets: true
   }
 
   /***************************************************************************

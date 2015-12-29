@@ -1,0 +1,381 @@
+swagger: '2.0'
+info:
+  title: Feature Guardian API
+  description: Move your app forward with the Feature Guardian API
+  version: 1.0.0
+host: 'localhost:1337'
+schemes:
+  - http
+  - https
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+produces:
+  - application/json
+consumes:
+  - application/json
+paths:
+  /token:
+    get:
+      summary: Get an auth token
+      description: |
+        Get an auth token to use with each request
+      parameters:
+        - name: app_id
+          in: query
+          description: Your application id.
+          required: true
+          type: string
+      tags:
+        - Tokens
+      responses:
+        '200':
+          description: An auth token
+          schema:
+            $ref: '#/definitions/Token'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role:
+    get:
+      summary: Get roles that belong to application
+      parameters:
+        - name: name
+          in: query
+          description: The role name
+          required: false
+          type: string
+        - name: type
+          in: query
+          description: The role type
+          required: false
+          type: integer
+        - name: custom_attributes
+          in: query
+          description: 'Custom attributes to filter by - in string format "key:value"'
+          required: false
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: The roles
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Role'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      security:
+        - Bearer: []
+      parameters:
+        - name: name
+          in: query
+          required: true
+          type: string
+        - name: type
+          in: query
+          required: false
+          type: integer
+        - name: custom_attributes
+          in: body
+          description: Custom attributes
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Custom_Attribute'
+      responses:
+        '200':
+          description: The role
+          schema:
+            $ref: '#/definitions/Role'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role/findOrCreate:
+    post:
+      summary: find or create a new role.
+      description: |
+        Find a role or create a new one
+      security:
+        - Bearer: []
+      parameters:
+        - name: name
+          in: query
+          description: The role name
+          required: true
+          type: string
+        - name: custom_attributes
+          in: body
+          description: Custom attributes
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Custom_Attribute'
+        - name: type
+          in: query
+          description: The role type
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: The role
+          schema:
+            $ref: '#/definitions/Role'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /role/{id}:
+    get:
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: The role
+          schema:
+            $ref: '#/definitions/Role'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      security:
+        - Bearer: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+        - name: name
+          in: query
+          required: false
+          type: string
+        - name: type
+          in: query
+          required: false
+          type: integer
+        - name: custom_attributes
+          in: body
+          description: Custom attributes
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Custom_Attribute'
+      responses:
+        '200':
+          description: The role
+          schema:
+            $ref: '#/definitions/Role'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /user:
+    get:
+      summary: Get users
+      description: Get users
+      security:
+        - Bearer: []
+      parameters:
+        - name: email
+          in: query
+          type: string
+          required: false
+        - name: provider_id
+          in: query
+          type: string
+          required: false
+        - name: type
+          in: query
+          type: integer
+          required: false
+        - name: custom_attributes
+          in: query
+          description: 'Custom attributes to filter by - in string format "key:value"'
+          required: false
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: The users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: Create user
+      description: Create user
+      security:
+        - Bearer: []
+      parameters:
+        - name: email
+          in: query
+          type: string
+          required: true
+        - name: provider_id
+          in: query
+          type: string
+          required: true
+        - name: type
+          in: query
+          type: integer
+          required: false
+        - name: custom_attributes
+          in: body
+          description: Custom attributes
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Custom_Attribute' 
+      responses:
+        '200':
+          description: The user
+          schema:
+            $ref: '#/definitions/User'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    
+definitions:
+  Token:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Token message.
+      token:
+        type: string
+        description: Auth token.
+      success:
+        type: boolean
+        description: Auth token status.
+  Role:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Role name.
+      id:
+        type: string
+        description: Role id.
+      custom_attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Custom_Attribute'
+      app_id:
+        type: string
+      type:
+        type: integer
+      entitlements:
+        type: array
+        items:
+          $ref: '#/definitions/Entitlement'
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
+  Custom_Attribute:
+    type: object
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+  Entitlement:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      app_id:
+        type: string
+      type:
+        type: integer
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+      users:
+        type: array
+        items:
+          $ref: '#/definitions/User'
+      custom_attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Custom_Attribute'
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+      app_id:
+        type: string
+      provider_id:
+        type: string
+      roles:
+        type: array
+        items:
+          $ref: '#/definitions/Role'
+      entitlements:
+        type: array
+        items:
+          $ref: '#/definitions/Entitlement'
+      type:
+        type: integer
+      custom_attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Custom_Attribute'
+      roleEntitlementRestrictions:
+        type: array
+        items:
+          $ref: '#/definitions/RoleEntitlementUserRestriction'
+  RoleEntitlementUserRestriction:
+    type: object
+    properties:
+      id:
+        type: string
+      app_id:
+        type: string
+      role_id:
+        type: string
+      entitlement_id:
+        type: string
+      user_id:
+        type: string

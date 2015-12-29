@@ -54,6 +54,7 @@ module.exports.policies = {
 
   'TokenController': {
     find: true, // We dont need authorization here, allowing public access
+    findByAppEmail: true,
     '*': false
   },
 
@@ -65,6 +66,10 @@ module.exports.policies = {
     create: true, //Allow open access for creating an application
     find: ['isAuthorized', 'alterAppIdFromParams'],
     '*': false
+  },
+
+  'AuthController': {
+    '*': true
   }
 
 };
