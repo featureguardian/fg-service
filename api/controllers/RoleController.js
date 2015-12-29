@@ -3,7 +3,9 @@
  *
  * @description :: Server-side logic for managing roles
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ *
  */
+/* jshint undef:false */
 
 module.exports = {
 	findOrCreate: function(req, res) {

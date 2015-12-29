@@ -3,7 +3,9 @@
  *
  * @description :: Server-side logic for managing Users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
+ *
  */
+/* jshint undef:false */
 
 module.exports = {
     findOrCreate: function(req, res) {
@@ -159,3 +161,8 @@ module.exports = {
     }
 };
 
+      user.save(sails.log);
+      res.json(user);
+    });
+  }
+};

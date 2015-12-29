@@ -11,8 +11,8 @@
           "name": "test1"
         }
  */
+/* jshint undef:false */
 
 module.exports = {
 
 };
-

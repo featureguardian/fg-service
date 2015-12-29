@@ -6,6 +6,7 @@
  *
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
+/* jshint undef:false */
 
 module.exports = {
 

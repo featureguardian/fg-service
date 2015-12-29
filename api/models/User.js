@@ -1,12 +1,13 @@
 /**
-* User.js
-*
-* @description :: TODO: You might write a short summary of how this model works and what it represents here.
-* @docs        :: http://sailsjs.org/#!documentation/models
-*/
+ * User.js
+ *
+ * @description :: TODO: You might write a short summary of how this model works and what it represents here.
+ * @docs        :: http://sailsjs.org/#!documentation/models
+ */
+/* jshint undef:false */
 
 module.exports = {
-  
+
   schema: true,
 
   attributes: {
@@ -21,21 +22,22 @@ module.exports = {
   },
 
   beforeCreate: function (values, cb) {
-    Application.find({id: values.app_id}).exec(function(err, apps){
-	if(err) return cb(err);
-	if(apps.length == 0){
-	   var err = {
-	      code: 'E_UNIQUE',
-	      details: 'Invalid app_id',
-	      model: 'application',
-	      invalidAttributes: {
-		app_id: values.app_id
-	      },
-	      status: 400
-           }
-	   return cb(err);
-	}
-	cb();
+    Application.find({ id: values.appId }).exec(function (err, apps) {
+      if (err) return cb(err);
+      if (apps.length === 0) {
+        const err2 = {
+          code: 'E_UNIQUE',
+          details: 'Invalid appId',
+          model: 'application',
+          invalidAttributes: {
+            appId: values.appId
+          },
+          status: 400
+        };
+        return cb(err2);
+      }
+
+      cb();
     });
   },
   afterDestroy: function(destroyedRecords, cb) {
