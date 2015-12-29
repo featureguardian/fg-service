@@ -7,6 +7,8 @@
  */
 /* jshint undef:false */
 
+const Controller = require('./Controller.js');
+
 module.exports = {
 
   findOrCreate: function (req, res) {
@@ -22,6 +24,11 @@ module.exports = {
     });
   },
 
+  /**
+   * Overrides built-in sales find method
+   * @param req
+   * @param res
+   */
   find: function (req, res) {
     'use strict';
     let customAttrs;
@@ -71,22 +78,36 @@ module.exports = {
 
   assignToRole: function (req, res) {
     'use strict';
+    const userId = req.param('userId');
     const roleId = req.param('roleId');
-    User.findOne({ id: req.param('userId') }, function (err, user) {
-      if (err) return res.json(400, err);
-      if (!user) return res.json(401, 'User not found');
 
-      Role.findOne({ id: roleId }, function (err2, role) {
-        if (err) return res.json(400, err2);
-        if (!role) return res.json(401, 'Role not found');
-        if (role.appId !== user.appId) return res.json(400, 'Role does not belong to this users application');
-        user.roles.add(roleId);
-        user.save(function (e, u) {
-          //User.findOne({id: req.param('userId')}).populateAll().exec(function(err, user){
-          res.json(u);
-          //});
+    //Look for the user
+    User.findOne({ id: userId }, function (err, user) {
+
+      let response = Controller.checkResponseForData(res, err, user, 'User not found');
+      if (!response) {
+
+        //Look for the role
+        Role.findOne({ id: roleId }, function (err2, role) {
+
+          let response = Controller.checkResponseForData(res, err2, role, 'Role not found');
+          if (!response) {
+
+            if (role.appId !== user.appId) {
+              response = res.json(400, 'Role does not belong to this users application');
+            }
+            else {
+              user.roles.add(roleId);
+              user.save(function (e, u) {
+                //User.findOne({id: req.param('userId')}).populateAll().exec(function(err, user){
+                response = res.json(u);
+                //});
+              });
+            }
+          }
         });
-      });
+      }
+      return response;
     });
   },
 
