@@ -1,8 +1,8 @@
 module.exports = {
 
-  "rules": {
-    "no-undef": 0,
+  rules: {
+    'no-undef': 0,
 
   }
-  
+
 };

@@ -9,17 +9,19 @@
 
 module.exports = function (req, res, next) {
 
-  //if authenticated from login ui, allow access to api
-  if(req.session.authenticated){
-    if(req.body){
-      req.body.app_id = req.session.app_id;
-    }
-    
-    req.query.app_id = req.session.app_id;
-    return next();
-  } 
+  'use strict';
 
-  var token;
+  //if authenticated from login ui, allow access to api
+  if (req.session.authenticated) {
+    if (req.body) {
+      req.body.appId = req.session.appId;
+    }
+
+    req.query.appId = req.session.appId;
+    return next();
+  }
+
+  let token;
   if (req.headers && req.headers.authorization) {
     const parts = req.headers.authorization.split(' ');
     if (parts.length === 2) {
@@ -40,15 +42,15 @@ module.exports = function (req, res, next) {
     return res.json(401, { err: 'No Authorization header was found' });
   }
 
-  jwToken.verify(token, function (err, token) {
-    if (err) return res.json(401, {err: 'Invalid Token!'});
-    req.token = token; // This is the decrypted token or the payload you provided
-    // Add app_id to query to prevent access to other apps in featureguardian
-    if(req.body){
-      req.body.app_id = token.id;
+  jwToken.verify(token, function (err, t) {
+    if (err) return res.json(401, { err: 'Invalid Token!' });
+    req.token = t; // This is the decrypted token or the payload you provided
+    // Add appId to query to prevent access to other apps in featureguardian
+    if (req.body) {
+      req.body.appId = t.id;
     }
-    
-    req.query.app_id = token.id;
+
+    req.query.appId = t.id;
     next();
   });
 };

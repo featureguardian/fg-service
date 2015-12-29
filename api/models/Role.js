@@ -11,12 +11,12 @@ module.exports = {
   schema: true,
 
   attributes: {
-	name: { type: 'string', required: true, unique: true },
-	app_id: { type: 'string', required: true, model: 'application' },
-	users: { collection: 'user', via: 'roles' },
-	entitlements: { collection: 'entitlement', via: 'roles' },
-	custom_attributes: { collection: 'customattribute', via: 'role_id' },
-	type: { type: 'integer' }
+    name: { type: 'string', required: true, unique: true },
+    appId: { type: 'string', required: true, model: 'application' },
+    users: { collection: 'user', via: 'roles' },
+    entitlements: { collection: 'entitlement', via: 'roles' },
+    customAttributes: { collection: 'customattribute', via: 'roleId' },
+    type: { type: 'integer' }
   },
 
   beforeCreate: function (values, cb) {
@@ -47,12 +47,13 @@ module.exports = {
     //});
     cb();
   },
-  afterDestroy: function(destroyedRecords, cb) {
-        
-        RoleEntitlementUserRestriction.destroy({role_id: _.pluck(destroyedRecords, 'id')}).exec(function(){
-        	CustomAttribute.destroy({role_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
-        });
-        
+
+  afterDestroy: function (destroyedRecords, cb) {
+
+    RoleEntitlementUserRestriction.destroy({ roleId: _.pluck(destroyedRecords, 'id') }).exec(function () {
+      CustomAttribute.destroy({ roleId: _.pluck(destroyedRecords, 'id') }).exec(cb);
+    });
+
   }
 };
 

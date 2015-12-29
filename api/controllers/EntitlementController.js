@@ -10,8 +10,8 @@
 
 module.exports = {
   assignToRole: function (req, res) {
-    const roleId = req.param('role_id');
-    Entitlement.findOne({ id: req.param('entitlement_id') }, function (err, entitlement) {
+    const roleId = req.param('roleId');
+    Entitlement.findOne({ id: req.param('entitlementId') }, function (err, entitlement) {
       if (err) return res.json(400, err);
       if (!entitlement) return res.json(401, 'Entitlement not found');
 
@@ -27,8 +27,8 @@ module.exports = {
   },
 
   removeFromRole: function (req, res) {
-    const roleId = req.param('role_id');
-    const entitlementId = req.param('entitlement_id');
+    const roleId = req.param('roleId');
+    const entitlementId = req.param('entitlementId');
     Role.findOne({ id: roleId }, function (err, role) {
       if (err) return res.json(400, err);
       if (!role) return res.json(401, 'Role not found');
