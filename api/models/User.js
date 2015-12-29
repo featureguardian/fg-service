@@ -16,7 +16,7 @@ module.exports = {
 	provider_id: { type: 'string', required: true },
 	roles: { collection: 'role', via: 'users' },
 	entitlements: { collection: 'entitlement', via: 'users' },
-	roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'user_id' },
+	roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'userId' },
 	custom_attributes: { collection: 'customattribute', via: 'user_id' },
 	type: { type: 'integer' }
   },
@@ -41,11 +41,11 @@ module.exports = {
     });
   },
   afterDestroy: function(destroyedRecords, cb) {
-        
+
         RoleEntitlementUserRestriction.destroy({user_id: _.pluck(destroyedRecords, 'id')}).exec(function(){
         	CustomAttribute.destroy({user_id: _.pluck(destroyedRecords, 'id')}).exec(cb);
         });
-        
+
   }
 };
 

@@ -16,7 +16,7 @@ module.exports = {
 
     name: {type: 'string', required: true, unique: false},
     email: {type: 'email', required: true, unique: false},
-    custom_attributes: { collection: 'customattribute', via: 'applicationId' }
+    custom_attributes: { collection: 'customattribute', via: 'application_id' }
 
   },
 
@@ -26,7 +26,7 @@ module.exports = {
     RoleEntitlementUserRestriction.destroy({app_id: _.pluck(destroyedRecords, 'id')}).exec(function(){
     	CustomAttribute.destroy({applicationId: _.pluck(destroyedRecords, 'id')}).exec(cb);
     });
-    
+
 
   }
 };
