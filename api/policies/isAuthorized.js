@@ -9,7 +9,7 @@
 
 module.exports = function (req, res, next) {
 
-  'use strict'
+  'use strict';
 
   //if authenticated from login ui, allow access to api
   if (req.session.authenticated) {
