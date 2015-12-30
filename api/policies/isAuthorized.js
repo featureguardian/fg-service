@@ -23,16 +23,7 @@ module.exports = function (req, res, next) {
 
   let token;
   if (req.headers && req.headers.authorization) {
-    const parts = req.headers.authorization.split(' ');
-    if (parts.length === 2) {
-      const scheme = parts[0],
-        credentials = parts[1];
-      if (/^Bearer$/i.test(scheme)) {
-        token = credentials;
-      }
-    } else {
-      return res.json(401, { err: 'Format is Authorization: Bearer [token]' });
-    }
+    token = req.headers.authorization;
   } else if (req.param('authToken')) {
     token = req.param('authToken');
 

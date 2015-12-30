@@ -18,7 +18,7 @@ module.exports = {
     entitlements: { collection: 'entitlement', via: 'users' },
     roleEntitlementRestrictions: { collection: 'roleentitlementuserrestriction', via: 'userId' },
     customAttributes: { collection: 'customattribute', via: 'userId' },
-    type: { type: 'integer' }
+    type: { type: 'string' }
   },
 
   beforeCreate: function (values, cb) {

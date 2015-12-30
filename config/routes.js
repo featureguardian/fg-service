@@ -36,37 +36,37 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'post /user/assignToRole/:user_id/:role_id': {
+  'post /user/assignToRole/:userId/:roleId': {
     controller: 'UserController',
     action: 'assignToRole',
     skipAssets: true
   },
 
-  'post /user/removeFromRole/:user_id/:role_id' : {
+  'post /user/removeFromRole/:userId/:roleId' : {
     controller: 'UserController',
     action: 'removeFromRole',
     skipAssets: true
   },
 
-  'get /user/rolesNotIn/:user_id': {
+  'get /user/rolesNotIn/:userId': {
     controller: 'UserController',
     action: 'rolesNotIn',
     skipAssets: true
   },
 
-  'post /user/giveEntitlement/:user_id/:entitlement_id' : {
+  'post /user/giveEntitlement/:userId/:entitlementId' : {
     controller: 'UserController',
     action: 'giveEntitlement',
     skipAssets: true
   },
 
-  'post /user/removeEntitlement/:user_id/:entitlement_id' : {
+  'post /user/removeEntitlement/:userId/:entitlementId' : {
     controller: 'UserController',
     action: 'removeEntitlement',
     skipAssets: true
   },
 
-  'get /user/entitlementsNotIn/:user_id': {
+  'get /user/entitlementsNotIn/:userId': {
     controller: 'UserController',
     action: 'entitlementsNotIn',
     skipAssets: true
