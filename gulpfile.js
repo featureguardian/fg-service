@@ -47,4 +47,7 @@ gulp.task('test', ['pre-test'], function () {
 
 gulp.task('integration-test', function () {
 
+  return gulp.src(['integration-test/*.test.js'])
+    .pipe(mocha());
+
 })

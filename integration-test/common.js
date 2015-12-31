@@ -1,5 +1,6 @@
-var Sails = require('sails'),
-  sails;
+var Sails = require('sails');
+var sails;
+
 
 before(function (done) {
 
@@ -14,7 +15,10 @@ before(function (done) {
     // here you can load fixtures, etc.
     done(err, sails);
   });
+
+  //request(sails.hooks.http.app).post('/user').send({ email: 'userOne@fg.com', appId: 'app1', providerId: 'userOneProvider' });
 });
+
 
 after(function (done) {
   // here you can clear fixtures, etc.
