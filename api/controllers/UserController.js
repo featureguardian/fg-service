@@ -105,9 +105,24 @@ module.exports = {
     });
   },
 
+  notInRole: function(req, res){
+    var roleId = req.param('roleId');
+    User.find(req.query).populate('roles').exec(function(err, users){
+      if(err) return res.json(400, err);
+      var filtered =
+        _.filter(users, function(user){
+          var inRole = _.some(user.roles, { id: roleId });
+          return !inRole;
+        });
+
+      res.json(filtered);
+    });
+  },
+
   removeFromRole: function (req, res) {
     const roleId = req.param('roleId');
-    UserService.findOne({ id: req.param('userId') }, function (err, user) {
+    const userId = req.param('userId');
+    UserService.findOne({ id: userId }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
       if (_.isArray(roleId)) {
@@ -115,10 +130,11 @@ module.exports = {
           user.roles.remove(id);
         });
       } else {
-
         user.roles.remove(roleId);
       }
-
+      RoleEntitlementUserRestriction.destroy({userId: userId, roleId: roleId}, function(err, r){
+        //just delete for now
+      });
       user.save(function (e, u) {
         res.json(u);
       });

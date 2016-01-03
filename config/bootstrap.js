@@ -69,7 +69,7 @@ module.exports.bootstrap = function(cb) {
    });
 
    CustomAttribute.native(function(err, collection) {
-	  collection.ensureIndex({key: 1, application_id: 1, user_id: 1, entitlement_id: 1, role_id: 1}, {
+	  collection.ensureIndex({key: 1, applicationId: 1, userId: 1, entitlementId: 1, roleId: 1}, {
 	    unique: true
 	  }, function(err, result) {
 	    if (err) {

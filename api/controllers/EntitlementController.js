@@ -21,7 +21,7 @@ module.exports = {
         if (role.appId !== entitlement.appId) return res.json(400, 'Entitlement does not belong to this users application');
         role.entitlements.add(entitlement.id);
         role.save(sails.log);
-        res.json(role);
+        res.json(entitlement);
       });
     });
   },
@@ -39,9 +39,28 @@ module.exports = {
       } else {
         role.entitlements.remove(entitlementId);
       }
+      role.save(function(err, r){
+        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId}, function(err, r){
+          //just delete for now
+        });
+        Entitlement.findOne({ id: req.param('entitlementId') }, function (err, entitlement) {
+          res.json(entitlement);
+        });
+      });
+    });
+  },
 
-      role.save(sails.log);
-      res.json(role);
+  entitlementsNotInRole: function(req, res){
+    const roleId = req.param('roleId');
+    Entitlement.find(req.query).populate('roles').exec(function (err, entitlements) {
+      if (err) return res.json(400, err);
+      const filtered =
+        _.filter(entitlements, function (entitlement) {
+          const hasRole = _.some(entitlement.roles, { id: roleId });
+          return !hasRole;
+        });
+
+      res.json(filtered);
     });
   }
 };

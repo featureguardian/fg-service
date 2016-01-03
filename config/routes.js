@@ -54,6 +54,12 @@ module.exports.routes = {
     skipAssets: true
   },
 
+  'get /user/notInRole/:roleId': {
+    controller: 'UserController',
+    action: 'notInRole',
+    skipAssets: true
+  },
+
   'post /user/giveEntitlement/:userId/:entitlementId' : {
     controller: 'UserController',
     action: 'giveEntitlement',
@@ -69,6 +75,24 @@ module.exports.routes = {
   'get /user/entitlementsNotIn/:userId': {
     controller: 'UserController',
     action: 'entitlementsNotIn',
+    skipAssets: true
+  },
+
+  'get /entitlement/entitlementsNotInRole/:roleId': {
+    controller: 'EntitlementController',
+    action: 'entitlementsNotInRole',
+    skipAssets: true
+  },
+
+  'post /entitlement/removeFromRole/:roleId/:entitlementId': {
+    controller: 'EntitlementController',
+    action: 'removeFromRole',
+    skipAssets: true
+  },
+
+  'post /entitlement/assignToRole/:roleId/:entitlementId': {
+    controller: 'EntitlementController',
+    action: 'assignToRole',
     skipAssets: true
   }
 
