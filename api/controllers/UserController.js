@@ -69,6 +69,58 @@ module.exports = {
     });
   },
 
+  getRolesAndEntitlements: function(req, res){
+
+    var userId = req.param('userId');
+    var appId = req.param('appId');
+
+    User.findOne({ id: userId, appId: appId }).populate('roles').populate('entitlements').exec(function (err, user) {
+      if (err) return res.json(400, err);
+
+      var entIds = _.pluck(user.entitlements, 'id');
+      //this should finish before the async parallel function
+      Entitlement.find({id: entIds, appId: appId}).populate('customAttributes').exec(function(err, entitlements){
+        user = user.toObject();
+        user.entitlements = entitlements;
+      });
+
+      var roleIds = _.pluck(user.roles, 'id');
+      var funcArray = [];
+      _.forEach(roleIds, function(roleId){
+        var func = function(cb){
+          Role.findOne({id: roleId, appId: appId}).populate('entitlements').populate('customAttributes').exec(function(err, role){
+            var entitlementIds = _.pluck(role.entitlements, 'id');
+            Entitlement.find({id: entitlementIds}).populate('customAttributes').exec(function(err, entitlements){
+              role = role.toObject();
+              role.entitlements = entitlements;
+              RoleEntitlementUserRestriction.find({entitlementId: entitlementIds, userId: userId, roleId: roleId, appId: appId},
+                function(err, restrictions){
+                  _.forEach(restrictions, function(restriction){
+                    _.remove(role.entitlements, function(entitlement){
+                      return entitlement.id === restriction.entitlementId;
+                    });
+                  });
+                  cb(err, role);
+                });
+            });
+          });
+        }
+        funcArray.push(func);
+      });
+
+      async.parallel(funcArray,
+        function(err, roles){
+          var o = {};
+          o.roleEntitlements = roles;
+          o.userEntitlements = user.entitlements;
+          res.json(o);
+        }
+      );
+
+
+    });
+  },
+
   assignToRole: function (req, res) {
     'use strict';
     const roleId = req.param('roleId');
