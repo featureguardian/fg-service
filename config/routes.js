@@ -94,6 +94,30 @@ module.exports.routes = {
     controller: 'EntitlementController',
     action: 'assignToRole',
     skipAssets: true
+  },
+
+  'get /entitlement/usersNotInEntitlement/:entitlementId': {
+    controller: 'EntitlementController',
+    action: 'usersNotInEntitlement',
+    skipAssets: true
+  },
+
+  'post /role/removeFromEntitlement/:entitlementId/:roleId': {
+    controller: 'RoleController',
+    action: 'removeFromEntitlement',
+    skipAssets: true
+  },
+
+  'get /role/rolesNotInEntitlement/:entitlementId' : {
+    controller: 'RoleController',
+    action: 'rolesNotInEntitlement',
+    skipAssets: true
+  },
+
+  'post /role/addToEntitlement/:entitlementId/:roleId' : {
+    controller: 'RoleController',
+    action: 'addToEntitlement',
+    skipAssets: true
   }
 
   /***************************************************************************

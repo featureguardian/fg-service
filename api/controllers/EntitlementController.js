@@ -11,17 +11,20 @@
 module.exports = {
   assignToRole: function (req, res) {
     const roleId = req.param('roleId');
-    Entitlement.findOne({ id: req.param('entitlementId') }, function (err, entitlement) {
+    const appId = req.param('appId');
+    const entitlementId = req.param('entitlementId');
+    Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
       if (err) return res.json(400, err);
       if (!entitlement) return res.json(401, 'Entitlement not found');
 
-      Role.findOne({ id: roleId }, function (findError, role) {
+      Role.findOne({ id: roleId, appId: appId }, function (findError, role) {
         if (findError) return res.json(400, findError);
         if (!role) return res.json(401, 'Role not found');
         if (role.appId !== entitlement.appId) return res.json(400, 'Entitlement does not belong to this users application');
         role.entitlements.add(entitlement.id);
-        role.save(sails.log);
-        res.json(entitlement);
+        role.save(function(err, role){
+          res.json(entitlement);
+        });
       });
     });
   },
@@ -29,7 +32,8 @@ module.exports = {
   removeFromRole: function (req, res) {
     const roleId = req.param('roleId');
     const entitlementId = req.param('entitlementId');
-    Role.findOne({ id: roleId }, function (err, role) {
+    const appId = req.param('appId');
+    Role.findOne({ id: roleId, appId: appId }, function (err, role) {
       if (err) return res.json(400, err);
       if (!role) return res.json(401, 'Role not found');
       if (_.isArray(entitlementId)) {
@@ -40,10 +44,10 @@ module.exports = {
         role.entitlements.remove(entitlementId);
       }
       role.save(function(err, r){
-        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId}, function(err, r){
+        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r){
           //just delete for now
         });
-        Entitlement.findOne({ id: req.param('entitlementId') }, function (err, entitlement) {
+        Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
           res.json(entitlement);
         });
       });
@@ -58,6 +62,22 @@ module.exports = {
         _.filter(entitlements, function (entitlement) {
           const hasRole = _.some(entitlement.roles, { id: roleId });
           return !hasRole;
+        });
+
+      res.json(filtered);
+    });
+  },
+
+  usersNotInEntitlement: function(req, res){
+    'use strict';
+    const appId = req.param('appId');
+    const entitlementId = req.param('entitlementId');
+    User.find({appId: appId}).populate('entitlements').exec(function (err, users) {
+      if (err) return res.json(400, err);
+      const filtered =
+        _.filter(users, function (user) {
+          const hasEntitlement = _.some(user.entitlements, { id: entitlementId });
+          return !hasEntitlement;
         });
 
       res.json(filtered);

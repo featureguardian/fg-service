@@ -62,6 +62,65 @@ module.exports = {
 
       res.json(roles);
     });
+  },
+
+  addToEntitlement: function (req, res) {
+    const roleId = req.param('roleId');
+    const appId = req.param('appId');
+    const entitlementId = req.param('entitlementId');
+    Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
+      if (err) return res.json(400, err);
+      if (!entitlement) return res.json(401, 'Entitlement not found');
+
+      Role.findOne({ id: roleId, appId: appId }, function (findError, role) {
+        if (findError) return res.json(400, findError);
+        if (!role) return res.json(401, 'Role not found');
+        if (role.appId !== entitlement.appId) return res.json(400, 'Entitlement does not belong to this users application');
+        role.entitlements.add(entitlement.id);
+        role.save(function(err, role){
+          res.json(role);
+        });
+      });
+    });
+  },
+
+  removeFromEntitlement: function (req, res) {
+    const roleId = req.param('roleId');
+    const entitlementId = req.param('entitlementId');
+    const appId = req.param('appId');
+    Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
+      if (err) return res.json(400, err);
+      if (!entitlement) return res.json(401, 'Entitlement not found');
+      if (_.isArray(roleId)) {
+        _.forEach(roleId, function (id) {
+          entitlement.roles.remove(id);
+        });
+      } else {
+        entitlement.roles.remove(roleId);
+      }
+      entitlement.save(function(err, r){
+        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r){
+          //just delete for now
+        });
+        Role.findOne({ id: roleId, appId: appId }, function (err, role) {
+          res.json(role);
+        });
+      });
+    });
+  },
+
+  rolesNotInEntitlement: function(req, res){
+    const entitlementId = req.param('entitlementId');
+    Role.find(req.query).populate('entitlements').exec(function (err, roles) {
+      if (err) return res.json(400, err);
+      const filtered =
+        _.filter(roles, function (role) {
+          const hasEntitlement = _.some(role.entitlements, { id: entitlementId });
+          return !hasEntitlement;
+        });
+
+      res.json(filtered);
+    });
   }
 };
 

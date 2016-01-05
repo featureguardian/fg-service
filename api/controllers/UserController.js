@@ -211,11 +211,12 @@ module.exports = {
   giveEntitlement: function (req, res) {
     'use strict';
     const entitlementId = req.param('entitlementId');
-    UserService.findOne({ id: req.param('userId') }, function (err, user) {
+    const appId = req.param('appId');
+    UserService.findOne({ id: req.param('userId'), appId: appId }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
 
-      Entitlement.findOne({ id: entitlementId }, function (err2, entitlement) {
+      Entitlement.findOne({ id: entitlementId, appId: appId }, function (err2, entitlement) {
         if (err2) return res.json(400, err2);
         if (!entitlement) return res.json(401, 'Entitlement not found');
         if (entitlement.appId !== user.appId) return res.json(400, 'Entitlement does not belong to this users application');
@@ -230,7 +231,8 @@ module.exports = {
   removeEntitlement: function (req, res) {
     'use strict';
     const entitlementId = req.param('entitlementId');
-    UserService.findOne({ id: req.param('userId') }, function (err, user) {
+    const appId = req.param('appId');
+    UserService.findOne({ id: req.param('userId'), appId: appId }, function (err, user) {
       if (err) return res.json(400, err);
       if (!user) return res.json(401, 'User not found');
       if (_.isArray(entitlementId)) {
