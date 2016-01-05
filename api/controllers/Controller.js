@@ -1,4 +1,3 @@
-
 module.exports = {
 
   /**
@@ -15,4 +14,4 @@ module.exports = {
     return undefined;
   }
 
-}
+};

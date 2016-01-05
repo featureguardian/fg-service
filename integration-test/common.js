@@ -11,16 +11,23 @@ before(function (done) {
     // configuration for testing purposes
   }, function (err, server) {
     sails = server;
-    if (err) return done(err);
+    if (err) {
+      console.log('Error occurred:', err);
+      return done(err);
+    }
     // here you can load fixtures, etc.
+
     done(err, sails);
   });
 
   //request(sails.hooks.http.app).post('/user').send({ email: 'userOne@fg.com', appId: 'app1', providerId: 'userOneProvider' });
 });
 
-
 after(function (done) {
   // here you can clear fixtures, etc.
-  Sails.lower(done);
+  Sails.lower(function () {
+    sails.log.info('Sails are down');
+    done();
+  });
+
 });

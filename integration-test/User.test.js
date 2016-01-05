@@ -1,7 +1,6 @@
 /**
  * Created by nate on 12/22/15.
  */
-var mocha = require('mocha');
 var expect = require('chai').expect;
 var request = require('supertest');
 var common = require('./common');

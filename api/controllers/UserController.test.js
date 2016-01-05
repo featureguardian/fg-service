@@ -1,13 +1,13 @@
 const ControllerTest = require('./_Controller.test');
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const wolfpack = require('wolfpack');
 
 //Module under test
 const UserController = require('./UserController');
 
-
 describe('User Controller', function () {
+
+  'use strict';
 
   beforeEach(function () {
     ControllerTest.reset();
@@ -22,12 +22,21 @@ describe('User Controller', function () {
     it('Role is added to use when valid role and app are provided', function () {
 
       //Arrange
-      var addedRole;
+      let addedRole;
       const mockUser = sinon.mock(User);
+
       //Simulate a save
-      mockUser.save = function( cb ) { cb(undefined, { data: 'mockResponse' } ); };
+      mockUser.save = function (cb) {
+        cb(undefined, { data: 'mockResponse' });
+      };
+
       //Expect the right role to be added
-      mockUser.roles = { add: function(roleId) { addedRole = roleId } };
+      mockUser.roles = {
+        add: function (roleId) {
+          addedRole = roleId;
+        }
+      };
+
       mockUser.appId = 'appId';
       User.setFindResults({ id: 1 }, [mockUser]);
       Role.setFindResults({ id: 2 }, { id: 2, appId: 'appId' });
@@ -35,10 +44,12 @@ describe('User Controller', function () {
       const res = ControllerTest.getResponse();
       const req = {
         param: function (name) {
-          return name === 'userId' ? 1 :
-            name === 'roleId' ? 2 : '';
+          let value = '';
+          if (name === 'userId') value = 1;
+          else if (name === 'roleId') value = 2;
+          return value;
         }
-      }
+      };
 
       //Act
       UserController.assignToRole(req, res);
@@ -51,6 +62,5 @@ describe('User Controller', function () {
     });
 
   });
-
 
 });

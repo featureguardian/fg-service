@@ -2,7 +2,6 @@
 const ControllerTest = require('./_Controller.test');
 
 const expect = require('chai').expect;
-const sinon = require('sinon');
 const wolfpack = require('wolfpack');
 
 //Module under test

@@ -90,23 +90,24 @@ module.exports = {
         //Look for the role
         Role.findOne({ id: roleId }, function (err2, role) {
 
-          let response = Controller.checkResponseForData(res, err2, role, 'Role not found');
+          response = Controller.checkResponseForData(res, err2, role, 'Role not found');
           if (!response) {
 
             if (role.appId !== user.appId) {
               response = res.json(400, 'Role does not belong to this users application');
-            }
-            else {
+            } else {
               user.roles.add(roleId);
               user.save(function (e, u) {
                 //User.findOne({id: req.param('userId')}).populateAll().exec(function(err, user){
                 response = res.json(u);
+
                 //});
               });
             }
           }
         });
       }
+
       return response;
     });
   },
