@@ -7,12 +7,18 @@ Feature Guardian provides a Restful API that serves up user entitlements to your
 
 ## Setup your environment
 1. Version 4.2.3 of Node.js
-1. Install [git flow](https://github.com/nvie/gitflow/wiki/Installation), read more about git flow [here](https://github.com/nvie/gitflow)
+1. Install [git flow](https://github.com/nvie/gitflow/wiki/Installation) for [Windows](https://github.com/nvie/gitflow/wiki/Windows#git-for-windows-previously-msysgit), read more about git flow [here](https://github.com/nvie/gitflow)
 1. Install [mongodb](https://docs.mongodb.org/v3.0/installation/)
 1. In mongodb shell, run the following commands:
 	* use featureguardian
 	* db.application.insert({name: 'TestApplication1'})
 	* make note of application._id with command: db.application.find()
+1. If using Windows update npm to 3.5 or greater
+    * cd \program files\nodejs
+    * ​npm -g install npm@3.5.0
+1. If using Windows
+    * install [Python 2.7](https://www.python.org/downloads/)
+    * install [node-gyp](https://github.com/nodejs/node-gyp#installation)
 
 ## Setup the application
 
