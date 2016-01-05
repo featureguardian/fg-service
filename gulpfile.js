@@ -1,4 +1,4 @@
-var gulp = require('gulp');
+var gulp = require('gulp-help')(require('gulp'));
 var util = require('gulp-util');
 var eslint = require('gulp-eslint');
 var jscs = require('gulp-jscs');
@@ -9,7 +9,7 @@ gulp.task('default', ['test', 'lint'], function () {
   // This will only run if the lint task is successful...
 });
 
-gulp.task('lint', function () {
+gulp.task('lint', 'Validate JS Styling and Code Analysis', function () {
 
   var fileStream = gulp.src(['api/**/*.js']);
 
@@ -26,7 +26,7 @@ gulp.task('lint', function () {
 
 });
 
-gulp.task('pre-test', function () {
+gulp.task('pre-test', 'performs code instrumentation for coverage during unit tests', function () {
   return gulp.src(['api/**/*.js', '!api/**/*.test.js'])
 
     // Covering files
@@ -36,7 +36,7 @@ gulp.task('pre-test', function () {
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test', 'lint'], function () {
+gulp.task('test', 'Runs unit tests', ['pre-test', 'lint'], function () {
 
   return gulp.src(['api/**/*.test.js'])
     .pipe(mocha({ reporter: 'spec' })) //nyan
@@ -51,7 +51,7 @@ gulp.task('test', ['pre-test', 'lint'], function () {
   //.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
 });
 
-gulp.task('integration-test', function () {
+gulp.task('integration-test', 'Starts Sails app and runs integration tests', function () {
 
   return gulp.src(['integration-test/*.test.js'])
     .pipe(mocha())
