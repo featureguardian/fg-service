@@ -1,45 +1,51 @@
 var gulp = require('gulp');
+var util = require('gulp-util');
 var eslint = require('gulp-eslint');
+var jscs = require('gulp-jscs');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 
-gulp.task('default', ['lint'], function () {
+gulp.task('default', ['test', 'lint'], function () {
   // This will only run if the lint task is successful...
 });
 
 gulp.task('lint', function () {
 
-  return gulp.src(['api/**/*.js', '!api/**/*test.js'])
+  var fileStream = gulp.src(['api/**/*.js']);
 
-    // eslint() attaches the lint output to the "eslint" property
-    // of the file object so it can be used by other modules.
-    .pipe(eslint())
+  log('Running JSCS ...')
+  fileStream = fileStream.pipe(jscs());
 
-    // eslint.format() outputs the lint results to the console.
-    // Alternatively use eslint.formatEach() (see Docs).
-    .pipe(eslint.format())
-
-    // To have the process exit with an error code (1) on
-    // lint error, return the stream and pipe to failAfterError last.
+  log('Running ESLint ...')
+  fileStream = fileStream.pipe(eslint())
+    .pipe(eslint.format('compact'))
+    // To have the process exit with an error code (1) on lint error, return the stream and pipe to failAfterError last.
     .pipe(eslint.failAfterError());
+
+  return fileStream;
+
 });
 
 gulp.task('pre-test', function () {
   return gulp.src(['api/**/*.js', '!api/**/*.test.js'])
 
     // Covering files
-    .pipe(istanbul({includeUntested: true}))
+    .pipe(istanbul({ includeUntested: true }))
 
     // Force `require` to return covered files
     .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ['pre-test'], function () {
+gulp.task('test', ['pre-test', 'lint'], function () {
+
   return gulp.src(['api/**/*.test.js'])
-    .pipe(mocha())
+    .pipe(mocha({ reporter: 'spec' })) //nyan
 
     // Creating the reports after tests ran
-    .pipe(istanbul.writeReports())
+    .pipe(istanbul.writeReports({
+      dir: './coverage',
+      reporters: ['lcov', 'json', 'text-summary'] //'text',
+    }))
 
   // Enforce a coverage of at least 90%
   //.pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }));
@@ -47,4 +53,27 @@ gulp.task('test', ['pre-test'], function () {
 
 gulp.task('integration-test', function () {
 
+  return gulp.src(['integration-test/*.test.js'])
+    .pipe(mocha())
+    .once('error', function () {
+      process.exit(1);
+    })
+    .once('end', function () {
+      process.exit();
+      util.log(util.colors.blue('Karma completed succesfully...'));
+    });
+
 })
+
+function log(msg) {
+  if (typeof(msg) === 'object') {
+    for (var item in msg) {
+      if (msg.hasOwnProperty(item)) {
+        util.log(util.colors.blue(msg[item]));
+      }
+    }
+  }
+  else {
+    util.log(util.colors.blue(msg));
+  }
+}

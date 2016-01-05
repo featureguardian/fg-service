@@ -40,6 +40,7 @@ module.exports = {
     "comma-dangle": 0,    //Not running in a browser (IE8), so this is ok
     "func-names": 0,      //This will be resolved when object-shorthand is enabled
     "spaced-comment": 0,  //Dumb rule, use whatever spacing you want in comments
+    "max-len": 0,
 
     //Turned ON
     "indent": [2, 2],
