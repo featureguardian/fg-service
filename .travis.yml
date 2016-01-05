@@ -8,6 +8,6 @@ script:
   - npm install
   - npm test
   - codecov
-  - mocha integration-test/bootstrap.test.js integration-test/*.test.js
+  - mocha integration-test/*.test.js
 notifications:
   slack: featureguardian:ZbWTsXjCSfkOBLmoJtKw3psU
