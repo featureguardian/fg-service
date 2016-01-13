@@ -5,8 +5,20 @@ var jscs = require('gulp-jscs');
 var istanbul = require('gulp-istanbul');
 var mocha = require('gulp-mocha');
 
-gulp.task('default', ['test', 'lint'], function () {
+gulp.task('default', ['test', 'lint', 'fix'], function () {
   // This will only run if the lint task is successful...
+});
+
+gulp.task('fix', function(){
+
+  return gulp.src(['api/**/*.js', '!api/**/*.test.js'])
+
+    // Covering files
+    .pipe(jscs({fix: true}))
+    .pipe(jscs.reporter())
+    .pipe(jscs.reporter('fail'))
+    .pipe(gulp.dest('api'));
+
 });
 
 gulp.task('lint', function () {

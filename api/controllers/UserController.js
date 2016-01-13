@@ -76,54 +76,58 @@ module.exports = {
     });
   },
 
-  getRolesAndEntitlements: function(req, res){
+  getRolesAndEntitlements: function(req, res) {
 
-    var userId = req.param('userId');
-    var appId = req.param('appId');
+    'use strict';
+
+    const userId = req.param('userId');
+    const appId = req.param('appId');
 
     User.findOne({ id: userId, appId: appId }).populate('roles').populate('entitlements').exec(function (err, user) {
       if (err) return res.json(400, err);
 
-      var entIds = _.pluck(user.entitlements, 'id');
+      const entIds = _.pluck(user.entitlements, 'id');
+
       //this should finish before the async parallel function
-      Entitlement.find({id: entIds, appId: appId}).populate('customAttributes').exec(function(err, entitlements){
+      Entitlement.find({id: entIds, appId: appId}).populate('customAttributes').exec(function(err, entitlements) {
         user = user.toObject();
         user.entitlements = entitlements;
       });
 
-      var roleIds = _.pluck(user.roles, 'id');
-      var funcArray = [];
-      _.forEach(roleIds, function(roleId){
-        var func = function(cb){
-          Role.findOne({id: roleId, appId: appId}).populate('entitlements').populate('customAttributes').exec(function(err, role){
+      const roleIds = _.pluck(user.roles, 'id');
+      let funcArray = [];
+      _.forEach(roleIds, function(roleId) {
+        let func = function(cb) {
+          Role.findOne({id: roleId, appId: appId}).populate('entitlements').populate('customAttributes').exec(function(err, role) {
             var entitlementIds = _.pluck(role.entitlements, 'id');
-            Entitlement.find({id: entitlementIds}).populate('customAttributes').exec(function(err, entitlements){
+            Entitlement.find({id: entitlementIds}).populate('customAttributes').exec(function(err, entitlements) {
               role = role.toObject();
               role.entitlements = entitlements;
               RoleEntitlementUserRestriction.find({entitlementId: entitlementIds, userId: userId, roleId: roleId, appId: appId},
-                function(err, restrictions){
-                  _.forEach(restrictions, function(restriction){
-                    _.remove(role.entitlements, function(entitlement){
+                function(err, restrictions) {
+                  _.forEach(restrictions, function(restriction) {
+                    _.remove(role.entitlements, function(entitlement) {
                       return entitlement.id === restriction.entitlementId;
                     });
                   });
+
                   cb(err, role);
                 });
             });
           });
-        }
+        };
+
         funcArray.push(func);
       });
 
       async.parallel(funcArray,
-        function(err, roles){
-          var o = {};
+        function(err, roles) {
+          let o = {};
           o.roleEntitlements = roles;
           o.userEntitlements = user.entitlements;
           res.json(o);
         }
       );
-
 
     });
   },
@@ -179,12 +183,13 @@ module.exports = {
     });
   },
 
-  notInRole: function(req, res){
-    var roleId = req.param('roleId');
-    User.find(req.query).populate('roles').exec(function(err, users){
-      if(err) return res.json(400, err);
-      var filtered =
-        _.filter(users, function(user){
+  notInRole: function(req, res) {
+    'use strict';
+    const roleId = req.param('roleId');
+    User.find(req.query).populate('roles').exec(function(err, users) {
+      if (err) return res.json(400, err);
+      let filtered =
+        _.filter(users, function(user) {
           var inRole = _.some(user.roles, { id: roleId });
           return !inRole;
         });
@@ -194,6 +199,7 @@ module.exports = {
   },
 
   removeFromRole: function (req, res) {
+    'use strict';
     const roleId = req.param('roleId');
     const userId = req.param('userId');
     UserService.findOne({ id: userId }, function (err, user) {
@@ -206,9 +212,11 @@ module.exports = {
       } else {
         user.roles.remove(roleId);
       }
-      RoleEntitlementUserRestriction.destroy({userId: userId, roleId: roleId}, function(err, r){
+
+      RoleEntitlementUserRestriction.destroy({userId: userId, roleId: roleId}, function(err, r) {
         //just delete for now
       });
+
       user.save(function (e, u) {
         res.json(u);
       });

@@ -77,7 +77,7 @@ module.exports = {
         if (!role) return res.json(401, 'Role not found');
         if (role.appId !== entitlement.appId) return res.json(400, 'Entitlement does not belong to this users application');
         role.entitlements.add(entitlement.id);
-        role.save(function(err, role){
+        role.save(function(err, role) {
           res.json(role);
         });
       });
@@ -98,10 +98,12 @@ module.exports = {
       } else {
         entitlement.roles.remove(roleId);
       }
-      entitlement.save(function(err, r){
-        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r){
+
+      entitlement.save(function(err, r) {
+        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r) {
           //just delete for now
         });
+
         Role.findOne({ id: roleId, appId: appId }, function (err, role) {
           res.json(role);
         });
@@ -109,7 +111,7 @@ module.exports = {
     });
   },
 
-  rolesNotInEntitlement: function(req, res){
+  rolesNotInEntitlement: function(req, res) {
     const entitlementId = req.param('entitlementId');
     Role.find(req.query).populate('entitlements').exec(function (err, roles) {
       if (err) return res.json(400, err);

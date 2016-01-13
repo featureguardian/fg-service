@@ -13,8 +13,8 @@ module.exports = {
     const roleId = req.param('roleId');
     const appId = req.param('appId');
     const entitlementId = req.param('entitlementId');
-    Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
-      if (err) return res.json(400, err);
+    Entitlement.findOne({ id: entitlementId, appId: appId }, function (entFindError, entitlement) {
+      if (entFindError) return res.json(400, entFindError);
       if (!entitlement) return res.json(401, 'Entitlement not found');
 
       Role.findOne({ id: roleId, appId: appId }, function (findError, role) {
@@ -22,7 +22,8 @@ module.exports = {
         if (!role) return res.json(401, 'Role not found');
         if (role.appId !== entitlement.appId) return res.json(400, 'Entitlement does not belong to this users application');
         role.entitlements.add(entitlement.id);
-        role.save(function(err, role){
+        role.save(function(err) {
+          if (err) return res.json(400, err);
           res.json(entitlement);
         });
       });
@@ -43,10 +44,12 @@ module.exports = {
       } else {
         role.entitlements.remove(entitlementId);
       }
-      role.save(function(err, r){
-        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r){
+
+      role.save(function(err, r) {
+        RoleEntitlementUserRestriction.destroy({entitlementId: entitlementId, roleId: roleId, appId: appId}, function(err, r) {
           //just delete for now
         });
+
         Entitlement.findOne({ id: entitlementId, appId: appId }, function (err, entitlement) {
           res.json(entitlement);
         });
@@ -54,7 +57,7 @@ module.exports = {
     });
   },
 
-  entitlementsNotInRole: function(req, res){
+  entitlementsNotInRole: function(req, res) {
     const roleId = req.param('roleId');
     Entitlement.find(req.query).populate('roles').exec(function (err, entitlements) {
       if (err) return res.json(400, err);
@@ -68,7 +71,7 @@ module.exports = {
     });
   },
 
-  usersNotInEntitlement: function(req, res){
+  usersNotInEntitlement: function(req, res) {
     'use strict';
     const appId = req.param('appId');
     const entitlementId = req.param('entitlementId');
