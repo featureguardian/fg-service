@@ -20,7 +20,37 @@
  * http://sailsjs.org/#!/documentation/concepts/Routes/RouteTargetSyntax.html
  */
 
-module.exports.routes = {
+ var blueprintConfig = require('./blueprints');
+
+var ROUTE_PREFIX = blueprintConfig.blueprints.prefix || "";
+
+// add global prefix to manually defined routes
+function addGlobalPrefix(routes) {
+  var paths = Object.keys(routes),
+      newRoutes = {};
+
+  if(ROUTE_PREFIX === "") {
+    return routes;
+  }
+
+  paths.forEach(function(path) {
+    var pathParts = path.split(" "),
+        uri = pathParts.pop(),
+        prefixedURI = "", newPath = "";
+
+      prefixedURI = ROUTE_PREFIX + uri;
+
+      pathParts.push(prefixedURI);
+
+      newPath = pathParts.join(" ");
+      // construct the new routes
+      newRoutes[newPath] = routes[path];
+  });
+
+  return newRoutes;
+};
+
+module.exports.routes = addGlobalPrefix({
 
   /***************************************************************************
   *                                                                          *
@@ -130,4 +160,4 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-};
+});
